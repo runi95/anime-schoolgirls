@@ -19,7 +19,8 @@ public class MainWindowController {
 	
 	public void addVideo(String imageURL, String name, String description) {
 		ImageView imgView = new ImageView(getImageFromURL(imageURL));
-		imgView.setFitWidth(140);
+		imgView.setPreserveRatio(true);
+		imgView.setFitWidth(200);
 		imgView.setFitHeight(200);
 		model.getList().add(new Video(imgView, name, description));
 	}
