@@ -13,6 +13,8 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class MainWindow extends SplitPane implements Initializable {
 
@@ -28,6 +30,10 @@ public class MainWindow extends SplitPane implements Initializable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+        Video item_1 = new Video(new ImageView(new Image("server/ui/resources/images/ui/ArrowR.png")), "C:/", "O.K");
+        Video item_2 = new Video(new ImageView(new Image("server/ui/resources/images/ui/ArrowL.png")), "D:/", "FAILURE");
+        videoList.addAll(item_1, item_2);
+		
         /* initialize and specify table column */
         TableColumn tcC1 = new TableColumn<>("Icon");
         tcC1.setCellValueFactory(new PropertyValueFactory<>("icon"));

@@ -7,9 +7,9 @@ public class Video {
 	     private ImageView icon;
 	     private String name, description;
 
-	     Video(ImageView icon, String name, String description) 
+	     public Video(ImageView imageView, String name, String description) 
 	     {
-	         this.icon = icon;
+	         this.icon = imageView;
 	         this.name = name;
 	         this.description = description;
 	     }
