@@ -9,7 +9,7 @@ import javafx.scene.Node;
 public class Resources {
 		public static void loadFXML(Node node) {
 			try {
-				String name = "/server/ui/resources/fxml/" + node.getClass().getSimpleName() + ".fxml";
+				String name = "view/fxml/" + node.getClass().getSimpleName() + ".fxml";
 				FXMLLoader fxmlLoader = new FXMLLoader(Resources.class.getResource(name));
 
 				fxmlLoader.setRoot(node);

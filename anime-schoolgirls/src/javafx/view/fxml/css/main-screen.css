@@ -1,0 +1,13 @@
+#stopButton {
+	-fx-border-color: #966464;
+	-fx-border-radius: 5;
+	-fx-background-color: #C49696;
+	-fx-padding: 3 6 6 6;
+}
+
+#startButton {
+	-fx-border-color: #649664;
+	-fx-border-radius: 5;
+	-fx-background-color: #96C496;
+	-fx-padding: 3 6 6 6;
+}
