@@ -1,11 +1,12 @@
 package javafx;
 
 import javafx.application.Application;
+import javafx.controller.MainWindowController;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.view.MainWindow;
+import javafx.view.MainWindowView;
 
 public class MyApplication extends Application {
 
@@ -41,7 +42,8 @@ public class MyApplication extends Application {
 		}
 		
 		private void setStartScene(Stage stage) {
-			root.getChildren().add(new MainWindow());
+			MainWindowController controller = new MainWindowController();
+			root.getChildren().add(controller.getView());
 			
 			scene = new Scene(root, width, height);
 			scene.getStylesheets().add("javafx/view/fxml/css/style.css");
