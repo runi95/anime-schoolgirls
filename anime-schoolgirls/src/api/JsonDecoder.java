@@ -46,13 +46,29 @@ public class JsonDecoder {
 			//SeriesList = Arrays.asList(gson.fromJson(ftwJson, SeriesList[].class));
 			//System.out.println(series.getid());
 			SeriesList serieslist = new Gson().fromJson(ftwJson, SeriesList.class);
-			System.out.println(gson.toJson(serieslist.results)); 
-			myCustom_JSONResponse="{\"master\":"+serieslist.results+"}";
-			extractSeries series = gson.fromJson(myCustom_JSONResponse, extractSeries.class);
-			System.out.println(series.valid()); 
-			ArrayList<extractSeries> list = new ArrayList<>();
-			list.addAll(serieslist.results);
-			System.out.println(serieslist.results); 
+			System.out.println(gson.toJson(serieslist.results));
+			//System.out.println(serieslist.getlist().get(1));
+
+			for (int i = 0; i < serieslist.getlist().size(); i++) {
+				
+				System.out.println("Series id= " + serieslist.getlist().get(i).getid());
+				System.out.println(
+						"Name= " + serieslist.getlist().get(i).getfullSeriesName() + "\n" +
+						"romaji= " + serieslist.getlist().get(i).getromaji() + "\n" +
+						"Description= " + serieslist.getlist().get(i).getdescription() + "\n" +
+						"imagelink= " + serieslist.getlist().get(i).getimage() + "\n" +
+						"###################"
+						
+						
+						);
+			}
+			//myCustom_JSONResponse="{\"master\":"+gson.toJson(serieslist.results)+"}";
+			//extractSeries series = gson.fromJson(myCustom_JSONResponse, extractSeries.class);
+			//System.out.println(series.valid()); 
+			//ArrayList<extractSeries> list = new ArrayList<>();
+			//list.addAll(serieslist.results);
+			//System.out.println(myCustom_JSONResponse); 
+			//System.out.println(Arrays.toString(list.toArray()));
 			/**
 			 * runar sjå hær:
 			 * serieslist.results den returnerer list
@@ -119,10 +135,10 @@ public class JsonDecoder {
 	public class SeriesList {
 	    @SerializedName("results")
 	    public List<extractSeries> results;
-	    //public String toString(){
-		//	return null;
+	    public List<extractSeries> getlist(){
+			return results;
 	    	
-	    //}
+	    }
 	}
 	public class extractSeries
 	{
