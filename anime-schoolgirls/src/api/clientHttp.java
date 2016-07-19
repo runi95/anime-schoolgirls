@@ -24,11 +24,9 @@ import api.grabFTW;
 @SuppressWarnings("deprecation")
 public class clientHttp {
 
-	private final String USER_NAME = "hennber";
-	private final String USER_PASS = "Henning569348";
 	
 
-	public static boolean Login(String[] args) throws Exception {
+	public static boolean Login(String userName, String userPass) throws Exception {
 
 		clientHttp http = new clientHttp();
 		
@@ -38,7 +36,7 @@ public class clientHttp {
 		
 		//grabFTW ftwdaemon = new grabFTW();
 		//System.out.println(ftwdaemon.getListing("display-series", 3));
-		return http.sendLoginRequest();
+		return http.sendLoginRequest(userName, userPass);
 		
 
 		
@@ -47,7 +45,7 @@ public class clientHttp {
 
 
 	// HTTP POST request
-	private boolean sendLoginRequest() throws Exception {
+	private boolean sendLoginRequest(String userName, String userPass) throws Exception {
 		
 		String url = Config.BASE_URL;
 
@@ -59,8 +57,8 @@ public class clientHttp {
 
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 		urlParameters.add(new BasicNameValuePair("devkey", Config.DEV_KEY));
-		urlParameters.add(new BasicNameValuePair("username", USER_NAME));
-		urlParameters.add(new BasicNameValuePair("password", USER_PASS));
+		urlParameters.add(new BasicNameValuePair("username", userName));
+		urlParameters.add(new BasicNameValuePair("password", userPass));
 //		urlParameters.add(new BasicNameValuePair("caller", ""));
 //		urlParameters.add(new BasicNameValuePair("num", "12345"));
 
