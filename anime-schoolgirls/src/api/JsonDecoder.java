@@ -35,6 +35,7 @@ public class JsonDecoder {
 			break;
 			
 		case "Series":
+<<<<<<< HEAD
 			GsonBuilder builder = new GsonBuilder();
 			Gson gsonjson = builder.create();
 			String server_JSONResponse = ftwJson; // the string in which you are getting your JSON Response after hitting URL
@@ -50,6 +51,23 @@ public class JsonDecoder {
 			extractSeries series = gson.fromJson(myCustom_JSONResponse, extractSeries.class);
 			System.out.println(series.valid()); 
 			System.out.println(serieslist.results.toString()); 
+=======
+			/**
+			 * Feilen må væra hær kombinert med
+			 */
+			//GsonBuilder builder = new GsonBuilder();
+			//Gson gsonjson = builder.create();
+			extractSeries series = gson.fromJson(ftwJson, SeriesList.class);
+			//List<SeriesList> SeriesList; LOL WHAT  WLLL SHit
+			//SeriesList = new ArrayList<SeriesList>();
+			//SeriesList = Arrays.asList(gson.fromJson(ftwJson, SeriesList[].class));
+			System.out.println(series.getid());
+			if (series.valid()){
+				System.out.println("valid? FOKK");
+			}
+			
+			
+>>>>>>> 6108155b732ebc7623197312fb930bd7c4cb1dd5
 			return true;
 		
 		case "Episodes":
@@ -103,6 +121,12 @@ public class JsonDecoder {
 	      return message;
 	   }
 	}
+	/**
+	 * hær
+	 * Eg forstår ikkje så møje av dette då. :p
+	 * Trur det har med object og lister som ikkje går øveens
+	 * 
+	 */
 	public class SeriesList {
 	    @SerializedName("results")
 	    public List<extractSeries> results;
@@ -192,9 +216,14 @@ public class JsonDecoder {
 	   {
 	      return id;
 	   }
+<<<<<<< HEAD
 	   public boolean valid()
 	   {
 		   return id != null;
+=======
+	   public boolean valid(){
+		   return fullSeriesName != null;
+>>>>>>> 6108155b732ebc7623197312fb930bd7c4cb1dd5
 	   }
 	}
 	

@@ -6,7 +6,8 @@ import api.JsonDecoder;
 public class testmain {
 
 	public static void main(String[] args) throws Exception {
-		if (clientHttp.Login("hennber", "SrB8ORWtsNyn")){
+
+		if (clientHttp.Login("", "")){
 			System.out.println("Success");
 			
 			getSeries();
