@@ -32,10 +32,7 @@ public class clientHttp {
 		
 
 
-		//System.out.println("\nTesting 2 - Send Http POST request");
-		
-		//grabFTW ftwdaemon = new grabFTW();
-		//System.out.println(ftwdaemon.getListing("display-series", 3));
+
 		return http.sendLoginRequest(userName, userPass);
 		
 
