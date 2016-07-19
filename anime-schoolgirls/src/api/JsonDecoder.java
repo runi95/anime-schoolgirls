@@ -35,7 +35,7 @@ public class JsonDecoder {
 			break;
 			
 		case "Series":
-<<<<<<< HEAD
+
 			GsonBuilder builder = new GsonBuilder();
 			Gson gsonjson = builder.create();
 			String server_JSONResponse = ftwJson; // the string in which you are getting your JSON Response after hitting URL
@@ -50,24 +50,11 @@ public class JsonDecoder {
 			myCustom_JSONResponse="{\"master\":"+serieslist.results+"}";
 			extractSeries series = gson.fromJson(myCustom_JSONResponse, extractSeries.class);
 			System.out.println(series.valid()); 
-			System.out.println(serieslist.results.toString()); 
-=======
+			//System.out.println(serieslist.results); 
 			/**
-			 * Feilen må væra hær kombinert med
+			 * runar sjå hær:
+			 * serieslist.results den returnerer list
 			 */
-			//GsonBuilder builder = new GsonBuilder();
-			//Gson gsonjson = builder.create();
-			extractSeries series = gson.fromJson(ftwJson, SeriesList.class);
-			//List<SeriesList> SeriesList; LOL WHAT  WLLL SHit
-			//SeriesList = new ArrayList<SeriesList>();
-			//SeriesList = Arrays.asList(gson.fromJson(ftwJson, SeriesList[].class));
-			System.out.println(series.getid());
-			if (series.valid()){
-				System.out.println("valid? FOKK");
-			}
-			
-			
->>>>>>> 6108155b732ebc7623197312fb930bd7c4cb1dd5
 			return true;
 		
 		case "Episodes":
