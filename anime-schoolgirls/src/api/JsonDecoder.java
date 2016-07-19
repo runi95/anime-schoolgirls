@@ -205,14 +205,9 @@ public class JsonDecoder {
 	   {
 	      return id;
 	   }
-<<<<<<< HEAD
-	   public boolean valid()
-	   {
-		   return id != null;
-=======
+
 	   public boolean valid(){
 		   return fullSeriesName != null;
->>>>>>> 6108155b732ebc7623197312fb930bd7c4cb1dd5
 	   }
 	}
 	
