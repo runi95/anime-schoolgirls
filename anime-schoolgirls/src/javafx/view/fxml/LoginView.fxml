@@ -10,7 +10,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="user" promptText="Username" />
+            <TextField fx:id="username" promptText="Username" />
             <PasswordField fx:id="password" promptText="Password" />
             <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#loginButtonClicked" text="Login" />
          </children>

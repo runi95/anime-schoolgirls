@@ -9,11 +9,13 @@ import javafx.view.MainWindowView;
 
 public class MainWindowController {
 
-	private MainWindowModel model = new MainWindowModel();
-	private MainWindowView view = new MainWindowView(model);
+	private MainWindowModel model;;
+	private MainWindowView view;
 	
 	/* MUST BE REMOVED AT SOME POINT */
-	public MainWindowController() {
+	public MainWindowController(MainWindowModel model, MainWindowView view) {
+		this.model = model;
+		this.view = view;
 		addVideo("https://img03.animeftw.tv/seriesimages/3.jpg", "Hentai", "This is some really kinky Hentai, don't watch it, it's miiiiine!");
 	}
 	

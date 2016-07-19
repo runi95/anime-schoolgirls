@@ -1,6 +1,7 @@
 package javafx.view;
 
 import javafx.Resources;
+import javafx.controller.LoginController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -13,11 +14,13 @@ public class LoginView extends BorderPane {
 	@FXML TextField username;
 	@FXML PasswordField password;
 	
+	private LoginController controller;
+	
 	public LoginView() {
 		Resources.loadFXML(this);
 	}
 	
 	public void loginButtonClicked() {
-		System.out.println("Ponies in socks!");
+		controller.loginButtonClicked(username.getText(), password.getText());
 	}
 }
