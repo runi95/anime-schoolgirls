@@ -37,13 +37,19 @@ public class JsonDecoder {
 		case "Series":
 			GsonBuilder builder = new GsonBuilder();
 			Gson gsonjson = builder.create();
+			String server_JSONResponse = ftwJson; // the string in which you are getting your JSON Response after hitting URL
+			String myCustom_JSONResponse="";// in which we will keep our response after adding object element to it
 			//extractSeries series = gsonjson.fromJson(ftwJson, extractSeries.class);
-			List<SeriesList> SeriesList;
-			SeriesList = new ArrayList<SeriesList>();
-			SeriesList = Arrays.asList(gson.fromJson(ftwJson, SeriesList[].class));
+			//List<SeriesList> SeriesList;
+			//SeriesList = new ArrayList<SeriesList>();
+			//SeriesList = Arrays.asList(gson.fromJson(ftwJson, SeriesList[].class));
 			//System.out.println(series.getid());
-			
-			
+			SeriesList serieslist = new Gson().fromJson(ftwJson, SeriesList.class);
+			System.out.println(gson.toJson(serieslist.results)); 
+			myCustom_JSONResponse="{\"master\":"+serieslist.results+"}";
+			extractSeries series = gson.fromJson(myCustom_JSONResponse, extractSeries.class);
+			System.out.println(series.valid()); 
+			System.out.println(serieslist.results.toString()); 
 			return true;
 		
 		case "Episodes":
@@ -99,7 +105,11 @@ public class JsonDecoder {
 	}
 	public class SeriesList {
 	    @SerializedName("results")
-	    public List<extractSeries> Series;
+	    public List<extractSeries> results;
+	    //public String toString(){
+		//	return null;
+	    	
+	    //}
 	}
 	public class extractSeries
 	{
@@ -181,6 +191,10 @@ public class JsonDecoder {
 	   public String getid()
 	   {
 	      return id;
+	   }
+	   public boolean valid()
+	   {
+		   return id != null;
 	   }
 	}
 	
