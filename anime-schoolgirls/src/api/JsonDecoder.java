@@ -50,7 +50,9 @@ public class JsonDecoder {
 			myCustom_JSONResponse="{\"master\":"+serieslist.results+"}";
 			extractSeries series = gson.fromJson(myCustom_JSONResponse, extractSeries.class);
 			System.out.println(series.valid()); 
-			//System.out.println(serieslist.results); 
+			ArrayList<extractSeries> list = new ArrayList<>();
+			list.addAll(serieslist.results);
+			System.out.println(serieslist.results); 
 			/**
 			 * runar sjå hær:
 			 * serieslist.results den returnerer list
