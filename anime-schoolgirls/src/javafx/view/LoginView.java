@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -27,6 +28,8 @@ public class LoginView extends BorderPane {
 	PasswordField password;
 	@FXML
 	Label errorLabel;
+	@FXML
+	CheckBox rememberMeCheckBox;
 
 	private FadeTransition fadeTransition;
 
@@ -40,15 +43,27 @@ public class LoginView extends BorderPane {
 		errorLabel.setText(errorMessage);
 		errorFading();
 	}
-
-	public void loginButtonClicked() {
-		controller.loginButtonClicked(username.getText(), password.getText());
-	}
-
+	
 	public void setController(LoginController controller) {
 		this.controller = controller;
 	}
 
+	public void loginButtonClicked() {
+		controller.loginButtonClicked(username.getText(), password.getText(), rememberMeCheckBox.isSelected());
+	}
+
+	public void setRememberMeToggle(boolean b) {
+		rememberMeCheckBox.setSelected(b);
+	}
+	
+	public void setUsername(String s) {
+		username.setText(s);
+	}
+	
+	public void setPassword(String s) {
+		password.setText(s);
+	}
+	
 	private void errorFading() {
 		if (fadeTransition == null) {
 			fadeTransition = new FadeTransition(Duration.millis(4000), errorLabel);

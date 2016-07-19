@@ -18,7 +18,7 @@
             <HBox>
                <children>
                   <PasswordField fx:id="password" promptText="Password" />
-                  <CheckBox mnemonicParsing="false" text="Remember me" >
+                  <CheckBox fx:id="rememberMeCheckBox" mnemonicParsing="false" text="Remember me">
                   <HBox.margin>
                         <Insets left="5.0" top="5.0" />
                      </HBox.margin></CheckBox>
