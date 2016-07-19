@@ -3,6 +3,7 @@ package javafx;
 import javafx.application.Application;
 import javafx.controller.LoginController;
 import javafx.controller.MainWindowController;
+import javafx.model.LoginModel;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -46,7 +47,9 @@ public class MyApplication extends Application {
 		private void setStartScene(Stage stage) {
 //			MainWindowController controller = new MainWindowController();
 //			root.getChildren().add(controller.getView());
-			root.getChildren().add(new LoginView());
+			LoginView view = new LoginView();
+			LoginController controller = new LoginController(new LoginModel(), view);
+			root.getChildren().add(view);
 			
 			scene = new Scene(root, width, height);
 			scene.getStylesheets().add("javafx/view/fxml/css/style.css");

@@ -4,9 +4,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.Resources;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.model.MainWindowModel;
+import javafx.model.Video;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -14,13 +16,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MainWindowView extends SplitPane implements Initializable {
 
-	private MainWindowModel model;
+	private ObservableList<Video> list;
 	
 	@SuppressWarnings("rawtypes")
 	@FXML TableView videoTable;
 
-	public MainWindowView(MainWindowModel model) {
-		this.model = model;
+	public MainWindowView(ObservableList<Video> list) {
+		this.list = list;
 		Resources.loadFXML(this);
 	}
 	
@@ -53,7 +55,7 @@ public class MainWindowView extends SplitPane implements Initializable {
         videoTable.getColumns().add(tcC1);
         videoTable.getColumns().add(tcC2);
         videoTable.getColumns().add(tcC3);
-        videoTable.setItems(model.getList());
+        videoTable.setItems(list);
 //        videoTable.setItems(model.getList());  
 	}
 }
