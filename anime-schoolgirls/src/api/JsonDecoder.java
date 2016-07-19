@@ -35,13 +35,19 @@ public class JsonDecoder {
 			break;
 			
 		case "Series":
-			GsonBuilder builder = new GsonBuilder();
-			Gson gsonjson = builder.create();
-			//extractSeries series = gsonjson.fromJson(ftwJson, extractSeries.class);
-			List<SeriesList> SeriesList;
-			SeriesList = new ArrayList<SeriesList>();
-			SeriesList = Arrays.asList(gson.fromJson(ftwJson, SeriesList[].class));
-			//System.out.println(series.getid());
+			/**
+			 * Feilen må væra hær kombinert med
+			 */
+			//GsonBuilder builder = new GsonBuilder();
+			//Gson gsonjson = builder.create();
+			extractSeries series = gson.fromJson(ftwJson, SeriesList.class);
+			//List<SeriesList> SeriesList; LOL WHAT  WLLL SHit
+			//SeriesList = new ArrayList<SeriesList>();
+			//SeriesList = Arrays.asList(gson.fromJson(ftwJson, SeriesList[].class));
+			System.out.println(series.getid());
+			if (series.valid()){
+				System.out.println("valid? FOKK");
+			}
 			
 			
 			return true;
@@ -97,6 +103,12 @@ public class JsonDecoder {
 	      return message;
 	   }
 	}
+	/**
+	 * hær
+	 * Eg forstår ikkje så møje av dette då. :p
+	 * Trur det har med object og lister som ikkje går øveens
+	 * 
+	 */
 	public class SeriesList {
 	    @SerializedName("results")
 	    public List<extractSeries> Series;
@@ -181,6 +193,9 @@ public class JsonDecoder {
 	   public String getid()
 	   {
 	      return id;
+	   }
+	   public boolean valid(){
+		   return fullSeriesName != null;
 	   }
 	}
 	
