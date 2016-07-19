@@ -15,7 +15,8 @@ public class JsonDecoder {
 			// Like this, right? ^
 			// And then retrieve info like...
 			Config.userToken =  info.getToken(); //?
-			if(info.getUserLoginState() == "200"){
+			System.out.println(info.getToken());
+			if(Integer.parseInt(info.getUserLoginState()) == 200){
 				return true;
 				
 			}
