@@ -100,6 +100,9 @@ public class LoginController {
 	}
 
 	private boolean checkDate(String tokenDate) {
+		if(tokenDate == null)
+			return false;
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
 		String date = dateFormat.format(new Date());
 
