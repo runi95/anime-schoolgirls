@@ -98,7 +98,7 @@ public class JsonDecoder {
 	   }
 	}
 	public class SeriesList {
-	    @SerializedName("series_list")
+	    @SerializedName("results")
 	    public List<extractSeries> Series;
 	}
 	public class extractSeries
