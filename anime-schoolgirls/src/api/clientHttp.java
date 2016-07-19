@@ -24,20 +24,21 @@ import api.grabFTW;
 @SuppressWarnings("deprecation")
 public class clientHttp {
 
-	private final String USER_NAME = "";
-	private final String USER_PASS = "";
+	private final String USER_NAME = "hennber";
+	private final String USER_PASS = "Henning569348";
 	
 
-	public static void main(String[] args) throws Exception {
+	public static boolean Login(String[] args) throws Exception {
 
 		clientHttp http = new clientHttp();
-		grabFTW ftwdaemon = new grabFTW();
-
-
-		System.out.println("\nTesting 2 - Send Http POST request");
-		http.sendLoginRequest();
 		
-		System.out.println(ftwdaemon.getListing("display-series", 3));
+
+
+		//System.out.println("\nTesting 2 - Send Http POST request");
+		
+		//grabFTW ftwdaemon = new grabFTW();
+		//System.out.println(ftwdaemon.getListing("display-series", 3));
+		return http.sendLoginRequest();
 		
 
 		
@@ -46,7 +47,7 @@ public class clientHttp {
 
 
 	// HTTP POST request
-	private void sendLoginRequest() throws Exception {
+	private boolean sendLoginRequest() throws Exception {
 		
 		String url = Config.BASE_URL;
 
@@ -81,7 +82,7 @@ public class clientHttp {
 		}
 
 		//System.out.println();
-		JsonDecoder.handleJson(result.toString(), "token");
+		return JsonDecoder.handleJson(result.toString(), "token");
 
 	}
 	
