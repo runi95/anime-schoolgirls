@@ -35,21 +35,26 @@ public class JsonDecoder {
 			break;
 			
 		case "Series":
-			/**
-			 * Feilen må væra hær kombinert med
-			 */
-			//GsonBuilder builder = new GsonBuilder();
-			//Gson gsonjson = builder.create();
-			extractSeries series = gson.fromJson(ftwJson, SeriesList.class);
-			//List<SeriesList> SeriesList; LOL WHAT  WLLL SHit
+
+			GsonBuilder builder = new GsonBuilder();
+			Gson gsonjson = builder.create();
+			String server_JSONResponse = ftwJson; // the string in which you are getting your JSON Response after hitting URL
+			String myCustom_JSONResponse="";// in which we will keep our response after adding object element to it
+			//extractSeries series = gsonjson.fromJson(ftwJson, extractSeries.class);
+			//List<SeriesList> SeriesList;
 			//SeriesList = new ArrayList<SeriesList>();
 			//SeriesList = Arrays.asList(gson.fromJson(ftwJson, SeriesList[].class));
-			System.out.println(series.getid());
-			if (series.valid()){
-				System.out.println("valid? FOKK");
-			}
-			
-			
+			//System.out.println(series.getid());
+			SeriesList serieslist = new Gson().fromJson(ftwJson, SeriesList.class);
+			System.out.println(gson.toJson(serieslist.results)); 
+			myCustom_JSONResponse="{\"master\":"+serieslist.results+"}";
+			extractSeries series = gson.fromJson(myCustom_JSONResponse, extractSeries.class);
+			System.out.println(series.valid()); 
+			//System.out.println(serieslist.results); 
+			/**
+			 * runar sjå hær:
+			 * serieslist.results den returnerer list
+			 */
 			return true;
 		
 		case "Episodes":
@@ -111,7 +116,11 @@ public class JsonDecoder {
 	 */
 	public class SeriesList {
 	    @SerializedName("results")
-	    public List<extractSeries> Series;
+	    public List<extractSeries> results;
+	    //public String toString(){
+		//	return null;
+	    	
+	    //}
 	}
 	public class extractSeries
 	{
@@ -194,8 +203,14 @@ public class JsonDecoder {
 	   {
 	      return id;
 	   }
+<<<<<<< HEAD
+	   public boolean valid()
+	   {
+		   return id != null;
+=======
 	   public boolean valid(){
 		   return fullSeriesName != null;
+>>>>>>> 6108155b732ebc7623197312fb930bd7c4cb1dd5
 	   }
 	}
 	
