@@ -5,7 +5,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import api.Config;
 import api.clientHttp;
@@ -19,97 +23,154 @@ import javafx.view.MainWindowView;
 public class LoginController {
 	private LoginView view;
 	private LoginModel model;
-	private final static String USER_HOME = System.getProperty("user.home") + System.getProperty("file.separator") + "anime-hentai" + System.getProperty("file.separator");
-	
+	private final static String USER_HOME = System.getProperty("user.home") + System.getProperty("file.separator")
+			+ "anime-hentai" + System.getProperty("file.separator");
+
 	public LoginController(LoginModel model, LoginView view) {
 		this.model = model;
 		this.view = view;
 		view.setController(this);
-		
+
 		loadUserSettings();
 	}
-	
+
 	public void loginButtonClicked(String username, String password, boolean toggled) {
-		boolean loginSuccess = false;
-		try {
-			loginSuccess = clientHttp.Login(username, password);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		if(loginSuccess) {
-			if(toggled)
-				saveUser(username, password);
-			else
-				saveToggleInfo("FALSE");
-			MainWindowModel model = new MainWindowModel();
-			SceneController.setScene(new MainWindowView(model.getList()));
-		}else{
-			view.showError("Error: Wrong username or password!");
+		boolean loginSuccess = false, tokenHasValidDate = checkDate(model.getTokenDate());
+		if (tokenHasValidDate) {
+			Config.userToken(model.getToken());
+			loadMainScreen();
+		} else {
+			try {
+				loginSuccess = clientHttp.Login(username, password);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if (loginSuccess) {
+				if (toggled)
+					saveUser(username, password);
+				else
+					saveToggleInfo("FALSE");
+				loadMainScreen();
+			} else {
+				view.showError("Error: Wrong username or password!");
+			}
 		}
 	}
 
 	public LoginView getView() {
 		return view;
 	}
-	
+
 	private void saveUser(String username, String password) {
-		UserInfo user = new UserInfo(username, password, Config.userToken);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+		String date = dateFormat.format(new Date());
+		UserInfo user = new UserInfo(username, password, Config.userToken, date);
 		saveToggleInfo("TRUE");
 		writeFile(USER_HOME, "user.info", user.toString());
 	}
-	
+
 	private void saveToggleInfo(String toggle) {
 		writeFile(USER_HOME, "user.settings", toggle);
 	}
-	
+
 	private void writeFile(String fileLocation, String fileName, String text) {
 		File f = new File(fileLocation);
-		try{
+		try {
 			f.mkdirs();
-		}catch(SecurityException e) {
+		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
-		try( BufferedWriter w = new BufferedWriter(new FileWriter(f.getAbsolutePath() + System.getProperty("file.separator") + fileName)) ) {
+		try (BufferedWriter w = new BufferedWriter(
+				new FileWriter(f.getAbsolutePath() + System.getProperty("file.separator") + fileName))) {
 			w.write(text);
-		} catch( Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void loadUserSettings() {
-		if(readToggleState()) {
+		if (readToggleState()) {
 			UserInfo user = readUser();
 			view.setRememberMeToggle(true);
-			view.setUsername(user.getUsername());
-			view.setPassword(user.getPassword());
-			Config.userToken(user.getToken());
+			setUsername(user.getUsername());
+			setPassword(user.getPassword());
+			setToken(user.getToken());
+			setTokenDate(user.getTokenDate());
 		}
 	}
-	
+
+	public void setUsername(String username) {
+		model.setUsername(username);
+		view.setUsername(username);
+	}
+
+	public void setPassword(String password) {
+		model.setPassword(password);
+		view.setPassword(password);
+	}
+
+	public void setToken(String token) {
+		model.setToken(token);
+	}
+
+	public void setTokenDate(String tokenDate) {
+		model.setTokenDate(tokenDate);
+	}
+
+	private boolean checkDate(String tokenDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+		String date = dateFormat.format(new Date());
+
+		long tokenDays = compareDate(tokenDate, date);
+
+		if (tokenDays > 26)
+			return false;
+		else
+			return true;
+	}
+
+	private long compareDate(String oldDate, String newDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+
+		try {
+			Date parsedOldDate = dateFormat.parse(oldDate);
+			Date parsedNewDate = dateFormat.parse(newDate);
+
+			long diff = parsedNewDate.getTime() - parsedOldDate.getTime();
+
+			return TimeUnit.DAYS.convert(diff, TimeUnit.MICROSECONDS);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return 30;
+	}
+
 	private boolean readToggleState() {
 		ArrayList<String> text = readFile(USER_HOME + "user.settings");
-		
-		for(String s : text) {
-			switch(s) {
+
+		for (String s : text) {
+			switch (s) {
 			case "TRUE":
 				return true;
 			case "FALSE":
 				return false;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	private UserInfo readUser() {
 		ArrayList<String> text = readFile(USER_HOME + "user.info");
-		
-		String username = null, password = null, token = null;
-		
-		for(String s : text) {
+
+		String username = null, password = null, token = null, date = null;
+
+		for (String s : text) {
 			String[] split = s.split(" ");
-			switch(split[0]) {
+			switch (split[0]) {
 			case "USERNAME:":
 				username = split[1];
 				break;
@@ -119,22 +180,30 @@ public class LoginController {
 			case "TOKEN:":
 				token = split[1];
 				break;
+			case "TOKENDATE:":
+				date = split[1];
+				break;
 			}
 		}
-		return new UserInfo(username, password, token);
+		return new UserInfo(username, password, token, date);
 	}
-	
+
+	private void loadMainScreen() {
+		MainWindowModel model = new MainWindowModel();
+		SceneController.setScene(new MainWindowView(model.getList()));
+	}
+
 	private ArrayList<String> readFile(String fileLocation) {
 		ArrayList<String> text = new ArrayList<>();
-		
-		try(BufferedReader r = new BufferedReader(new FileReader(new File(fileLocation)))) {
+
+		try (BufferedReader r = new BufferedReader(new FileReader(new File(fileLocation)))) {
 			String line;
-			while((line = r.readLine()) != null)
+			while ((line = r.readLine()) != null)
 				text.add(line);
-		} catch(Exception e) {
-//			e.printStackTrace();
+		} catch (Exception e) {
+			// e.printStackTrace();
 		}
-		
+
 		return text;
 	}
 }
