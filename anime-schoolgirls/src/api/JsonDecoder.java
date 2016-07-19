@@ -52,7 +52,8 @@ public class JsonDecoder {
 			System.out.println(series.valid()); 
 			ArrayList<extractSeries> list = new ArrayList<>();
 			list.addAll(serieslist.results);
-			System.out.println(serieslist.results); 
+			//System.out.println(serieslist.results); 
+			System.out.println(Arrays.toString(list.toArray()));
 			/**
 			 * runar sjå hær:
 			 * serieslist.results den returnerer list
