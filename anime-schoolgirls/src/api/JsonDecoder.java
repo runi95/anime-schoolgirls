@@ -1,6 +1,7 @@
 package api;
 
 import com.google.gson.Gson;
+import api.Config;
 
 
 public class JsonDecoder {
@@ -11,7 +12,8 @@ public class JsonDecoder {
 		userInfo info = gson.fromJson(ftwJson, userInfo.class);
 		// Like this, right? ^
 		// And then retrieve info like...
-		System.out.println(info.getUserToken()); //?
+		Config.userToken =  info.getToken(); //?
+		//System.out.println(Config.userToken);
 	}
 	
 	public class userInfo
@@ -40,7 +42,7 @@ public class JsonDecoder {
 	   
 	   public String getToken()
 	   {
-	      return "Token=" + message;
+	      return message;
 	   }
 	}
 

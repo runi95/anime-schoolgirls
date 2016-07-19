@@ -15,6 +15,8 @@ import org.apache.http.message.BasicNameValuePair;
 
 
 import api.JsonDecoder.userInfo;
+import api.Config;
+import api.grabFTW;
 
 
 
@@ -22,9 +24,6 @@ import api.JsonDecoder.userInfo;
 @SuppressWarnings("deprecation")
 public class clientHttp {
 
-	private final String USER_AGENT = "HenningCast/javaCast";
-	private final String DEV_KEY = "qruE-204Y-ZXgr-GLRZ";
-	private final String BASE_URL = "https://www.animeftw.tv/api/v2/";
 	private final String USER_NAME = "";
 	private final String USER_PASS = "";
 	
@@ -32,10 +31,14 @@ public class clientHttp {
 	public static void main(String[] args) throws Exception {
 
 		clientHttp http = new clientHttp();
+		grabFTW ftwdaemon = new grabFTW();
 
 
 		System.out.println("\nTesting 2 - Send Http POST request");
 		http.sendLoginRequest();
+		
+		System.out.println(ftwdaemon.getListing("display-series", 3));
+		
 
 		
 
@@ -45,16 +48,16 @@ public class clientHttp {
 	// HTTP POST request
 	private void sendLoginRequest() throws Exception {
 		
-		String url = BASE_URL;
+		String url = Config.BASE_URL;
 
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(url);
 
 		// add header
-		post.setHeader("User-Agent", USER_AGENT);
+		post.setHeader("User-Agent", Config.USER_AGENT);
 
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-		urlParameters.add(new BasicNameValuePair("devkey", DEV_KEY));
+		urlParameters.add(new BasicNameValuePair("devkey", Config.DEV_KEY));
 		urlParameters.add(new BasicNameValuePair("username", USER_NAME));
 		urlParameters.add(new BasicNameValuePair("password", USER_PASS));
 //		urlParameters.add(new BasicNameValuePair("caller", ""));
@@ -81,6 +84,11 @@ public class clientHttp {
 		JsonDecoder.handleJson(result.toString());
 
 	}
+	
+	
+	
+	
+	
 	
 
 	
