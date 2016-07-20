@@ -1,3 +1,7 @@
+/**
+ * @author Henning Berge
+ */
+
 package api;
 
 import java.io.BufferedReader;
