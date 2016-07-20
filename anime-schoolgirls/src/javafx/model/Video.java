@@ -10,6 +10,7 @@ public class Video {
 	     public Video(ImageView imageView, String name, String description) 
 	     {
 	         this.icon = imageView;
+	         setIconSize(icon);
 	         this.name = name;
 	         this.description = description;
 	     }
@@ -40,5 +41,11 @@ public class Video {
 	     public String getDescription() 
 	     {
 	         return this.description;
+	     }
+	     
+	     private void setIconSize(ImageView icon) {
+	    	 icon.setPreserveRatio(true);
+	    	 icon.setFitWidth(200);
+	    	 icon.setFitHeight(200);
 	     }
 	 }

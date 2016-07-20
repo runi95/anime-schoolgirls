@@ -23,8 +23,11 @@ public class MainWindowView extends SplitPane implements Initializable {
 
 	public MainWindowView(ObservableList<Video> list) {
 		this.list = list;
+		System.out.println("list size = " + list.size());
 		Resources.loadFXML(this);
 	}
+	
+	public int listSize() { return list.size(); }
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
