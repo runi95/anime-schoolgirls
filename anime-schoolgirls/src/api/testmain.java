@@ -1,6 +1,9 @@
 package api;
 import api.clientHttp;
 import api.grabFTW;
+
+import java.util.List;
+
 import api.JsonDecoder;
 
 public class testmain {
@@ -20,18 +23,17 @@ public class testmain {
 	
 	public static void getSeries(){
 		System.out.println("\nTesting 2 - Send Http POST request");
-		
+		List extractSeries;
 		grabFTW ftwdaemon = new grabFTW();
 		try {
-			if(JsonDecoder.handleJson(ftwdaemon.getListing("display-series", 3), "Series")){
-				System.out.println("SUCCESS");
-			}
-				
-			//System.out.println(ftwdaemon.getListing("display-series", 3));
-		} catch (Exception e) {
+			extractSeries = JsonDecoder.getSeries(ftwdaemon.getListing("display-series", 3));
+			System.out.println(extractSeries.get(1).toString());
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
+		
 		}
+		
 	}
 
 }
