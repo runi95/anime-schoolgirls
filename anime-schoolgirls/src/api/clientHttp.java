@@ -59,7 +59,7 @@ public class clientHttp {
 		urlParameters.add(new BasicNameValuePair("devkey", Config.DEV_KEY));
 		urlParameters.add(new BasicNameValuePair("username", userName));
 		urlParameters.add(new BasicNameValuePair("password", userPass));
-//		urlParameters.add(new BasicNameValuePair("caller", ""));
+		urlParameters.add(new BasicNameValuePair("remember", "true"));
 //		urlParameters.add(new BasicNameValuePair("num", "12345"));
 
 		post.setEntity(new UrlEncodedFormEntity(urlParameters));
