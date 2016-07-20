@@ -1,3 +1,8 @@
+/**
+ * @author Henning Berge
+ */
+
+
 package api;
 
 import java.util.ArrayList;
@@ -14,6 +19,30 @@ import api.Config;
 public class JsonDecoder {
 
 	//private static ArrayList<SeriesList> SeriesList;
+	public static <T> List<extractSeries> getSeries(String ftwJson){
+		Gson gson = new Gson();
+
+		SeriesList serieslist = new Gson().fromJson(ftwJson, SeriesList.class);
+		System.out.println(gson.toJson(serieslist.results));
+
+		/*for (int i = 0; i < serieslist.getlist().size(); i++) {
+			
+			System.out.println("Series id= " + serieslist.getlist().get(i).getid());
+			System.out.println(
+					"Name= " + serieslist.getlist().get(i).getfullSeriesName() + "\n" +
+					"romaji= " + serieslist.getlist().get(i).getromaji() + "\n" +
+					"Description= " + serieslist.getlist().get(i).getdescription() + "\n" +
+					"imagelink= " + serieslist.getlist().get(i).getimage() + "\n" +
+					"###################"
+					
+					
+					);
+		}*/
+
+		
+		return serieslist.getlist();
+		
+	}
 	public static boolean handleJson(String ftwJson, String Method) throws Exception{
 		Gson gson = new Gson();
 		
@@ -36,44 +65,6 @@ public class JsonDecoder {
 			
 		case "Series":
 
-			GsonBuilder builder = new GsonBuilder();
-			Gson gsonjson = builder.create();
-			String server_JSONResponse = ftwJson; // the string in which you are getting your JSON Response after hitting URL
-			String myCustom_JSONResponse="";// in which we will keep our response after adding object element to it
-			//extractSeries series = gsonjson.fromJson(ftwJson, extractSeries.class);
-			//List<SeriesList> SeriesList;
-			//SeriesList = new ArrayList<SeriesList>();
-			//SeriesList = Arrays.asList(gson.fromJson(ftwJson, SeriesList[].class));
-			//System.out.println(series.getid());
-			SeriesList serieslist = new Gson().fromJson(ftwJson, SeriesList.class);
-			System.out.println(gson.toJson(serieslist.results));
-			//System.out.println(serieslist.getlist().get(1));
-
-			for (int i = 0; i < serieslist.getlist().size(); i++) {
-				
-				System.out.println("Series id= " + serieslist.getlist().get(i).getid());
-				System.out.println(
-						"Name= " + serieslist.getlist().get(i).getfullSeriesName() + "\n" +
-						"romaji= " + serieslist.getlist().get(i).getromaji() + "\n" +
-						"Description= " + serieslist.getlist().get(i).getdescription() + "\n" +
-						"imagelink= " + serieslist.getlist().get(i).getimage() + "\n" +
-						"###################"
-						
-						
-						);
-			}
-			//myCustom_JSONResponse="{\"master\":"+gson.toJson(serieslist.results)+"}";
-			//extractSeries series = gson.fromJson(myCustom_JSONResponse, extractSeries.class);
-			//System.out.println(series.valid()); 
-			//ArrayList<extractSeries> list = new ArrayList<>();
-			//list.addAll(serieslist.results);
-			//System.out.println(myCustom_JSONResponse); 
-			//System.out.println(Arrays.toString(list.toArray()));
-			/**
-			 * runar sjå hær:
-			 * serieslist.results den returnerer list
-			 */
-			return true;
 		
 		case "Episodes":
 			

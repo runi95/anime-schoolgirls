@@ -1,3 +1,7 @@
+/**
+ * @author Henning Berge
+ */
+
 package api;
 
 public class Config {
