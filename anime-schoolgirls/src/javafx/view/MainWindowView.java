@@ -7,8 +7,8 @@ import javafx.Resources;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.model.MainWindowModel;
 import javafx.model.Video;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,12 +20,15 @@ public class MainWindowView extends SplitPane implements Initializable {
 	
 	@SuppressWarnings("rawtypes")
 	@FXML TableView videoTable;
+	@FXML ScrollPane scrollPane;
 
 	public MainWindowView(ObservableList<Video> list) {
 		this.list = list;
-		System.out.println("list size = " + list.size());
 		Resources.loadFXML(this);
 	}
+	
+	public void scrollEvent() { System.out.println("SCROLL!"); }
+	public void onScrollToHandler() { System.out.println("Scroll to!"); }
 	
 	public int listSize() { return list.size(); }
 	
@@ -40,18 +43,15 @@ public class MainWindowView extends SplitPane implements Initializable {
         tcC1.setMaxWidth(140);
         tcC1.setMinWidth(140);
         tcC1.setPrefWidth(140);
-
         TableColumn tcC2 = new TableColumn<>("Name");
         tcC2.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcC2.setEditable(false);
-//        tcC2.setMaxWidth(500);
         tcC2.setMinWidth(40);
         tcC2.setPrefWidth(100);
         
         TableColumn tcC3 = new TableColumn<>("Description");
         tcC3.setCellValueFactory(new PropertyValueFactory<>("description"));
         tcC3.setEditable(false);
-//        tcC2.setMaxWidth(500);
         tcC2.setMinWidth(100);
         
         /* add column to the tableview and set its items */
@@ -59,6 +59,5 @@ public class MainWindowView extends SplitPane implements Initializable {
         videoTable.getColumns().add(tcC2);
         videoTable.getColumns().add(tcC3);
         videoTable.setItems(list);
-//        videoTable.setItems(model.getList());  
 	}
 }
