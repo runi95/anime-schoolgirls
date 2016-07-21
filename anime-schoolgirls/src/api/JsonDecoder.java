@@ -25,19 +25,16 @@ public class JsonDecoder {
 		SeriesList serieslist = new Gson().fromJson(ftwJson, SeriesList.class);
 		System.out.println(gson.toJson(serieslist.results));
 
-		/*for (int i = 0; i < serieslist.getlist().size(); i++) {
+		for (int i = 0; i < serieslist.getlist().size(); i++) {
 			
 			System.out.println("Series id= " + serieslist.getlist().get(i).getid());
 			System.out.println(
-					"Name= " + serieslist.getlist().get(i).getfullSeriesName() + "\n" +
-					"romaji= " + serieslist.getlist().get(i).getromaji() + "\n" +
-					"Description= " + serieslist.getlist().get(i).getdescription() + "\n" +
-					"imagelink= " + serieslist.getlist().get(i).getimage() + "\n" +
+					"\n" + "link= " + serieslist.getlist().get(i).getratingLink() + "\n" +
 					"###################"
 					
 					
 					);
-		}*/
+		}
 
 		
 		return serieslist.getlist();
@@ -187,6 +184,19 @@ public class JsonDecoder {
 	   public String getratingLink()
 	   {
 	      return ratingLink;
+	   }
+	   public String getratingString()
+	   {
+		   switch (ratingLink){
+		   case "https://img03.animeftw.tv/ratings/15+.jpg":
+			   return "15";
+		   case "https://img03.animeftw.tv/ratings/12+.jpg":
+			   return "12";
+		   case "https://img03.animeftw.tv/ratings/18+.jpg":
+			   return "18";
+		   default:
+			   return "e";
+		   }
 	   }
 	   public void setdescription(String description)
 	   {
