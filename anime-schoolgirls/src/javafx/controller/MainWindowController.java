@@ -7,6 +7,7 @@ import api.JsonDecoder;
 import api.JsonDecoder.extractSeries;
 import api.grabFTW;
 import javafx.model.MainWindowModel;
+import javafx.model.Series;
 import javafx.model.Video;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -24,12 +25,12 @@ public class MainWindowController {
 		addVideosFromAnimeFTW();
 	}
 	
-	public void addAllVideos(List<Video> videoList) {
+	public void addAllSeries(List<Series> videoList) {
 		model.getList().addAll(videoList);
 	}
 	
-	public void addVideo(String imageURL, String name, String description) {
-		model.getList().add(new Video(new ImageView(getImageFromURL(imageURL)), name, description));
+	public void addSeries(String name, String description, String rating, String image) {
+		model.getList().add(new Series(name, description, rating, image));
 	}
 	
 	public void removeAllVideos() {
@@ -57,13 +58,24 @@ public class MainWindowController {
 		return view;
 	}
 	
+	/*
+	private Image getRatingImage(String rating) { 
+		switch(rating) {
+		
+		
+		default:
+			return new Image("javafx/view/image/noimage.jpg");
+		}
+	}
+	*/
+	
 	private void addVideosFromAnimeFTW() {
 		List<extractSeries> extractSeries;
 		grabFTW ftwdaemon = new grabFTW();
 		
 		try {
 			extractSeries = JsonDecoder.getSeries(ftwdaemon.getListing("display-series", 3));
-			addAllVideos(convertFromExtractSeriesToVideos(extractSeries));
+			addAllSeries(convertFromExtractSeriesToSeries(extractSeries));
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -71,14 +83,14 @@ public class MainWindowController {
 		}
 	}
 	
-	private List<Video> convertFromExtractSeriesToVideos(List<extractSeries> list) {
-		List<Video> retList = new ArrayList<>();
+	private List<Series> convertFromExtractSeriesToSeries(List<extractSeries> list) {
+		List<Series> retList = new ArrayList<>();
 		
 		System.out.println("extractSeries = " + list.size());
 		
 		for(extractSeries series : list) {
-			String image = series.getimage(), name = series.getfullSeriesName(), description = series.getdescription();
-			retList.add(new Video(new ImageView(getImageFromURL(image)), name, description));
+			String name = series.getfullSeriesName(), description = series.getdescription(), image = series.getimage(), rating = series.getratingString();
+			retList.add(new Series(name, description, rating, image));
 		}
 		
 		return retList;

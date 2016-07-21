@@ -5,9 +5,9 @@ import javafx.collections.ObservableList;
 
 public class MainWindowModel {
 	
-	private ObservableList<Video> videoList = FXCollections.observableArrayList();
+	private ObservableList<Series> videoList = FXCollections.observableArrayList();
 	
-	public ObservableList<Video> getList() {
+	public ObservableList<Series> getList() {
 		return videoList;
 	}
 }

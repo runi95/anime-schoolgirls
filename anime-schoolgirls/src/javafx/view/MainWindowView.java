@@ -7,7 +7,7 @@ import javafx.Resources;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.model.Video;
+import javafx.model.Series;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
@@ -16,13 +16,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MainWindowView extends SplitPane implements Initializable {
 
-	private ObservableList<Video> list;
+	private ObservableList<Series> list;
 	
 	@SuppressWarnings("rawtypes")
 	@FXML TableView videoTable;
 	@FXML ScrollPane scrollPane;
 
-	public MainWindowView(ObservableList<Video> list) {
+	public MainWindowView(ObservableList<Series> list) {
 		this.list = list;
 		Resources.loadFXML(this);
 	}
@@ -37,27 +37,18 @@ public class MainWindowView extends SplitPane implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
         /* initialize and specify table column */
-        TableColumn tcC1 = new TableColumn<>("Icon");
-        tcC1.setCellValueFactory(new PropertyValueFactory<>("icon"));
+        TableColumn tcC1 = new TableColumn<>("Name");
+        tcC1.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcC1.setEditable(false);
-        tcC1.setMaxWidth(140);
-        tcC1.setMinWidth(140);
-        tcC1.setPrefWidth(140);
-        TableColumn tcC2 = new TableColumn<>("Name");
-        tcC2.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tcC1.setPrefWidth(400);
+        TableColumn tcC2 = new TableColumn<>("Rating");
+        tcC2.setCellValueFactory(new PropertyValueFactory<>("rating"));
         tcC2.setEditable(false);
-        tcC2.setMinWidth(40);
-        tcC2.setPrefWidth(100);
-        
-        TableColumn tcC3 = new TableColumn<>("Description");
-        tcC3.setCellValueFactory(new PropertyValueFactory<>("description"));
-        tcC3.setEditable(false);
-        tcC2.setMinWidth(100);
-        
+        tcC2.setMaxWidth(200);
+
         /* add column to the tableview and set its items */
         videoTable.getColumns().add(tcC1);
         videoTable.getColumns().add(tcC2);
-        videoTable.getColumns().add(tcC3);
         videoTable.setItems(list);
 	}
 }
