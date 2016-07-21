@@ -23,23 +23,20 @@ public class JsonDecoder {
 		Gson gson = new Gson();
 
 		SeriesList serieslist = new Gson().fromJson(ftwJson, SeriesList.class);
-		System.out.println(gson.toJson(serieslist.results));
-
-		for (int i = 0; i < serieslist.getlist().size(); i++) {
-			
-			System.out.println("Series id= " + serieslist.getlist().get(i).getid());
-			System.out.println(
-					"\n" + "link= " + serieslist.getlist().get(i).getratingLink() + "\n" +
-					"###################"
-					
-					
-					);
-		}
-
 		
 		return serieslist.getlist();
 		
 	}
+	
+	public static <T> List<extractEpisodes> getEpisodes(String ftwJson){
+		Gson gson = new Gson();
+
+		EpisodesList episodeslist = new Gson().fromJson(ftwJson, EpisodesList.class);
+		
+		return episodeslist.getlist();
+		
+	}
+	
 	public static boolean handleJson(String ftwJson, String Method) throws Exception{
 		Gson gson = new Gson();
 		
@@ -115,9 +112,9 @@ public class JsonDecoder {
 	   }
 	}
 	/**
-	 * hær
-	 * Eg forstår ikkje så møje av dette då. :p
-	 * Trur det har med object og lister som ikkje går øveens
+	 * 
+	 * 
+	 * Series Grabber
 	 * 
 	 */
 	public class SeriesList {
@@ -161,14 +158,6 @@ public class JsonDecoder {
 	   {
 	      return romaji;
 	   }
-//	   public void setimage-320x280(String image-320x280)
-//	   {
-//	      this.image-320x280 = image-320x280;
-//	   }	   
-//	   public String getimage-320x280()
-//	   {
-//	      return image-320x280;
-//	   }
 	   public void setimage(String image)
 	   {
 	      this.image = image;
@@ -225,6 +214,107 @@ public class JsonDecoder {
 
 	   public boolean valid(){
 		   return fullSeriesName != null;
+	   }
+	}
+	
+	/**
+	 * 
+	 * 
+	 * Episode Grabber
+	 * 
+	 */
+	public class EpisodesList {
+	    @SerializedName("results")
+	    public List<extractEpisodes> results;
+	    public List<extractEpisodes> getlist(){
+			return results;
+	    	
+	    }
+	}
+	public class extractEpisodes
+	{
+	   private String id;
+	   private String epname;
+	   private String video;
+	   private String epnumber;
+	   private String image;
+	   private String Movie;
+	   private String romaji;
+
+	    
+	   public extractEpisodes(){      
+	   }
+	    
+	   public extractEpisodes(String id, String epname, String video, String epnumber, String image, String Movie, String romaji){
+	      
+	      this.id = id;
+	      this.epname = epname;
+	      this.video = video;
+	      this.epnumber = epnumber;
+	      this.image = image;
+	      this.Movie = Movie;
+	      this.romaji = romaji;
+
+	   }
+	   public void setromaji(String romaji)
+	   {
+	      this.romaji = romaji;
+	   }	   
+	   public String getromaji()
+	   {
+	      return romaji;
+	   }
+	   public void Movie(String Movie)
+	   {
+	      this.Movie = Movie;
+	   }	   
+	   public String Movie()
+	   {
+	      return Movie;
+	   }
+	   public void setimage(String image)
+	   {
+	      this.image = image;
+	   }	   
+	   public String getimage()
+	   {
+	      return image;
+	   }
+	   public void setepnumber(String epnumber)
+	   {
+	      this.epnumber = epnumber;
+	   }	   
+	   public String getepnumber()
+	   {
+	      return epnumber;
+	   }
+	   public void setvideo(String video)
+	   {
+	      this.video = video;
+	   }	   
+	   public String getvideo()
+	   {
+	      return video;
+	   }
+	   public void setepname(String epname)
+	   {
+	      this.epname = epname;
+	   }	   
+	   public String getepname()
+	   {
+	      return epname;
+	   }
+	   public void setid(String id)
+	   {
+	      this.id = id;
+	   }	   
+	   public String getid()
+	   {
+	      return id;
+	   }
+
+	   public boolean valid(){
+		   return epname != null;
 	   }
 	}
 	
