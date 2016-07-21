@@ -40,14 +40,11 @@ public class MainWindowView extends SplitPane implements Initializable {
         TableColumn tcC1 = new TableColumn<>("Name");
         tcC1.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcC1.setEditable(false);
-        tcC1.setMaxWidth(140);
-        tcC1.setMinWidth(140);
-        tcC1.setPrefWidth(140);
+        tcC1.setPrefWidth(400);
         TableColumn tcC2 = new TableColumn<>("Rating");
         tcC2.setCellValueFactory(new PropertyValueFactory<>("rating"));
         tcC2.setEditable(false);
-        tcC2.setMinWidth(40);
-        tcC2.setPrefWidth(100);
+        tcC2.setMaxWidth(200);
 
         /* add column to the tableview and set its items */
         videoTable.getColumns().add(tcC1);
