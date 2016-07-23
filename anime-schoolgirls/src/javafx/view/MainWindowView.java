@@ -19,16 +19,13 @@ public class MainWindowView extends SplitPane implements Initializable {
 	private ObservableList<Series> list;
 	
 	@SuppressWarnings("rawtypes")
-	@FXML TableView videoTable;
+	@FXML TableView seriesTable;
 	@FXML ScrollPane scrollPane;
 
 	public MainWindowView(ObservableList<Series> list) {
 		this.list = list;
 		Resources.loadFXML(this);
 	}
-	
-	public void scrollEvent() { System.out.println("SCROLL!"); }
-	public void onScrollToHandler() { System.out.println("Scroll to!"); }
 	
 	public int listSize() { return list.size(); }
 	
@@ -47,8 +44,15 @@ public class MainWindowView extends SplitPane implements Initializable {
         tcC2.setMaxWidth(200);
 
         /* add column to the tableview and set its items */
-        videoTable.getColumns().add(tcC1);
-        videoTable.getColumns().add(tcC2);
-        videoTable.setItems(list);
+        seriesTable.getColumns().add(tcC1);
+        seriesTable.getColumns().add(tcC2);
+        seriesTable.setItems(list);
+        
+        seriesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+            	System.out.println(seriesTable.getSelectionModel().getSelectedItem());
+            }
+        });
+
 	}
 }

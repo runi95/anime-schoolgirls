@@ -1,18 +1,28 @@
 package javafx.model;
 
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 
 public class Video {
 	
 	     private ImageView icon;
-	     private String name, description;
+	     private String name;
+	     private TextArea description;
 
 	     public Video(ImageView imageView, String name, String description) 
 	     {
 	         this.icon = imageView;
 	         setIconSize(icon);
 	         this.name = name;
-	         this.description = description;
+	         this.description = new TextArea(description) {
+	        	 @Override
+	        	 public void requestFocus() { 
+	        		 // DO NOTHING? Probably...
+	        	 }
+	         };
+	         this.description.setEditable(false);
+	         this.description.setFocusTraversable(false);
+	         this.description.setWrapText(true);
 	     }
 
 	     public void setIcon(ImageView value) 
@@ -35,10 +45,18 @@ public class Video {
 
 	     public void setDescription(String description) 
 	     {
-	         this.description = description;
+	    	 this.description = new TextArea(description) {
+	        	 @Override
+	        	 public void requestFocus() { 
+	        		 // DO NOTHING? Probably...
+	        	 }
+	         };
+	         this.description.setEditable(false);
+	         this.description.setFocusTraversable(false);
+	         this.description.setWrapText(true);
 	     }
 
-	     public String getDescription() 
+	     public TextArea getDescription() 
 	     {
 	         return this.description;
 	     }
