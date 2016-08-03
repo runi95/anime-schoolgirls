@@ -13,6 +13,7 @@ import javafx.model.Episodes;
 import javafx.model.Series;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -24,19 +25,23 @@ public class MainWindowView extends SplitPane implements Initializable {
 
 	private ObservableList<Series> seriesList;
 	private ObservableList<Episodes> episodeList;
+	private ObservableList<Episodes> movieList;
 	
 	private MainWindowController controller;
 	
 	@SuppressWarnings("rawtypes")
+	@FXML TabPane episodeTabs;
 	@FXML TableView seriesTable;
 	@FXML TableView epTable;
+	@FXML TableView movieTable;
 	@FXML ScrollPane scrollPane;
 	@FXML ImageView seriesImage;
 	@FXML DescriptionTextArea seriesDescription;
 
-	public MainWindowView(ObservableList<Series> seriesList, ObservableList<Episodes> episodesList) {
+	public MainWindowView(ObservableList<Series> seriesList, ObservableList<Episodes> episodesList, ObservableList<Episodes> movieList) {
 		this.seriesList = seriesList;
 		this.episodeList = episodesList;
+		this.movieList = movieList;
 		Resources.loadFXML(this);
 	}
 	
@@ -66,6 +71,9 @@ public class MainWindowView extends SplitPane implements Initializable {
 	
 	public TableView getSeriesTable() { return seriesTable; }
 	public TableView getEpisodesTable() { return epTable; }
+	public TableView getMovieTable() { return movieTable; }
+	
+	public TabPane getEpisodeTabs() { return episodeTabs; }
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -89,6 +97,15 @@ public class MainWindowView extends SplitPane implements Initializable {
         TableColumn tcCE2 = new TableColumn<>("Name");
         tcCE2.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcCE2.setEditable(false);
+        
+        /* initialize and specify table column for movies */
+        TableColumn tcCM1 = new TableColumn<>("Movie");
+        tcCM1.setCellValueFactory(new PropertyValueFactory<>("epnumber"));
+        tcCM1.setEditable(false);
+        tcCM1.setPrefWidth(10);
+        TableColumn tcCM2 = new TableColumn<>("Name");
+        tcCM2.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tcCM2.setEditable(false);
 
         /* add column to the tableview and set its items */
         seriesTable.getColumns().add(tcCS1);
@@ -98,5 +115,9 @@ public class MainWindowView extends SplitPane implements Initializable {
         epTable.getColumns().add(tcCE1);
         epTable.getColumns().add(tcCE2);
         epTable.setItems(episodeList);
+        
+        movieTable.getColumns().add(tcCM1);
+        movieTable.getColumns().add(tcCM2);
+        movieTable.setItems(movieList);
 	}
 }

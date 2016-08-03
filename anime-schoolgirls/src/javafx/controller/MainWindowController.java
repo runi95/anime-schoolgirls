@@ -46,6 +46,7 @@ public class MainWindowController {
 
 	public void addEpisodesFromFTW(String id) {
 		removeAllEpisodes();
+		removeAllMovies();
 
 		grabFTW ftwdaemon = new grabFTW();
 
@@ -53,10 +54,11 @@ public class MainWindowController {
 			@Override
 			public void run() {
 				try {
-					List<extractEpisodes> extractSeries;
-					extractSeries = JsonDecoder.getEpisodes(ftwdaemon.getEpisodesByid("display-episodes", id));
+					List<extractEpisodes> extractEpisodes;
+					extractEpisodes = JsonDecoder.getEpisodes(ftwdaemon.getEpisodesByid("display-episodes", id));
 
-					addAllEpisodes(convertFromExtractEpisodesToEpisodes(extractSeries));
+					addAllEpisodes(convertFromExtractEpisodesToEpisodes(extractEpisodes));
+					addAllMovies(convertFromExtractEpisodesToMovies(extractEpisodes));
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -73,7 +75,6 @@ public class MainWindowController {
 	}
 	
 	private void runEpisode(String link) {
-		System.err.println("GOT THIS FAR");
 		String[] arguments = new String[] {"mpv", "--user-agent", "\"HenningCast/mpv\"", link};
 		try {
 			Process proc = new ProcessBuilder(arguments).start();
@@ -81,6 +82,22 @@ public class MainWindowController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void addAllMovies(List<Episodes> movieList) {
+		model.getMovieList().addAll(movieList);
+	}
+	
+	public void addMovies(int movieNumber, String name, String movieLink) {
+		model.getMovieList().add(new Episodes(movieNumber, name, movieLink));
+	}
+	
+	public void removeAllMovies() {
+		model.getMovieList().clear();
+	}
+	
+	public void removeMovie(int index) {
+		model.getMovieList().remove(index);
 	}
 	
 	public void addAllEpisodes(List<Episodes> episodeList) {
@@ -159,6 +176,19 @@ public class MainWindowController {
 		}.start();
 	}
 
+	private List<Episodes> convertFromExtractEpisodesToMovies(List<extractEpisodes> list) {
+		List<Episodes> retList = new ArrayList<>();
+
+		for (extractEpisodes episodes : list) {
+			int epNumber = parseInt(episodes.getepnumber());
+			String name = episodes.getepname(), epLink = episodes.getvideo();
+			if (parseInt(episodes.Movie()) == 1)
+				retList.add(new Episodes(epNumber, name, epLink));
+		}
+
+		return retList;
+	}
+	
 	private List<Episodes> convertFromExtractEpisodesToEpisodes(List<extractEpisodes> list) {
 		List<Episodes> retList = new ArrayList<>();
 
