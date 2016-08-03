@@ -134,12 +134,13 @@ public class JsonDecoder {
 	   private String image;
 	   //private String image-320x280;
 	   private String romaji;
+	   private String watchlist;
 
 	    
 	   public extractSeries(){      
 	   }
 	    
-	   public extractSeries(String id, String fullSeriesName, String description, String ratingLink, String image/*, String image-320x280*/, String romaji){
+	   public extractSeries(String id, String watchlist, String fullSeriesName, String description, String ratingLink, String image/*, String image-320x280*/, String romaji){
 	      
 	      this.id = id;
 	      this.fullSeriesName = fullSeriesName;
@@ -148,6 +149,7 @@ public class JsonDecoder {
 	      this.image = image;
 	      //this.image-320x280 = image-320x280;
 	      this.romaji = romaji;
+	      this.watchlist= watchlist;
 
 	   }
 	   public void setromaji(String romaji)
@@ -157,6 +159,14 @@ public class JsonDecoder {
 	   public String getromaji()
 	   {
 	      return romaji;
+	   }
+	   public void setwatchlist(String watchlist)
+	   {
+	      this.watchlist = watchlist;
+	   }	   
+	   public String getwatchlist()
+	   {
+	      return watchlist;
 	   }
 	   public void setimage(String image)
 	   {
