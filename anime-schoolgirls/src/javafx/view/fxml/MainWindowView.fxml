@@ -70,7 +70,7 @@
                 </Tab>
               </tabs>
             </TabPane>
-            <TitledPane animated="false" text="Episodes">
+            <TitledPane animated="false" text="Episodes" collapsible="false">
                <content>
                   <ScrollPane fx:id="scrollPane1" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
                      <content>
