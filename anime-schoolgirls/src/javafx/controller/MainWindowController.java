@@ -95,9 +95,11 @@ public class MainWindowController {
 		Node oldPlaceHolder2 = view.getMovieTable().getPlaceholder();
 		
 		ProgressIndicator progress = new ProgressIndicator();
+		ProgressIndicator progress2 = new ProgressIndicator();
 		progress.setMaxSize(90, 90);
+		progress2.setMaxSize(90, 90);
 		view.getEpisodesTable().setPlaceholder(new StackPane(progress));
-		view.getMovieTable().setPlaceholder(new StackPane(progress));
+		view.getMovieTable().setPlaceholder(new StackPane(progress2));
 //		view.getEpisodesTable().getItems().clear();
 
 		thread = new Thread() {
