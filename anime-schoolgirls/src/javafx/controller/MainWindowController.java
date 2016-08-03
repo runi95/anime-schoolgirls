@@ -9,6 +9,7 @@ import api.JsonDecoder.extractEpisodes;
 import api.JsonDecoder.extractSeries;
 import api.grabFTW;
 import backend.IntegerParser;
+import backend.WaitingThread;
 import javafx.model.Episodes;
 import javafx.model.MainWindowModel;
 import javafx.model.Series;
@@ -23,6 +24,9 @@ public class MainWindowController {
 
 	private MainWindowModel model;;
 	private MainWindowView view;
+
+	private Thread thread = null;
+	private WaitingThread waitingThread = null;
 
 	public MainWindowController(MainWindowModel model, MainWindowView view) {
 		this.model = model;
@@ -46,12 +50,42 @@ public class MainWindowController {
 	}
 
 	public void addEpisodesFromFTW(String id) {
+		if (thread != null) {
+			thread.interrupt();
+
+			if (waitingThread != null)
+				waitingThread.setSeriesId(id);
+			else {
+				waitingThread = new WaitingThread(id) {
+					@Override
+					public void run() {
+						while (thread != null) {
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+						createNewEpisodesThread(getSeriesId());
+						waitingThread = null;
+					}
+				};
+
+				waitingThread.start();
+			}
+
+		} else
+			createNewEpisodesThread(id);
+	}
+
+	private void createNewEpisodesThread(String id) {
 		removeAllEpisodes();
 		removeAllMovies();
-
 		grabFTW ftwdaemon = new grabFTW();
 
-		new Thread() {
+		thread = new Thread() {
 			@Override
 			public void run() {
 				try {
@@ -63,30 +97,33 @@ public class MainWindowController {
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-
+				} finally {
+					thread = null;
 				}
 			}
-		}.start();
+		};
+
+		thread.start();
 	}
 
 	public void playEpisode() {
 		Episodes episode = null;
-		
-		switch(view.getEpisodeTabs().getSelectionModel().getSelectedIndex()) {
+
+		switch (view.getEpisodeTabs().getSelectionModel().getSelectedIndex()) {
 		case 0:
-			episode = (Episodes)view.getEpisodesTable().getSelectionModel().getSelectedItem();
+			episode = (Episodes) view.getEpisodesTable().getSelectionModel().getSelectedItem();
 			break;
 		case 1:
-			episode = (Episodes)view.getMovieTable().getSelectionModel().getSelectedItem();
+			episode = (Episodes) view.getMovieTable().getSelectionModel().getSelectedItem();
 			break;
 		}
-		
-		if(episode != null)
+
+		if (episode != null)
 			runEpisode(episode.getEpLink());
 	}
-	
+
 	private void runEpisode(String link) {
-		String[] arguments = new String[] {"mpv", "--user-agent", "\"HenningCast/mpv\"", link};
+		String[] arguments = new String[] { "mpv", "--user-agent", "\"HenningCast/mpv\"", link };
 		try {
 			Process proc = new ProcessBuilder(arguments).start();
 		} catch (IOException e) {
@@ -94,23 +131,23 @@ public class MainWindowController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void addAllMovies(List<Episodes> movieList) {
 		model.getMovieList().addAll(movieList);
 	}
-	
+
 	public void addMovies(int movieNumber, String name, String movieLink) {
 		model.getMovieList().add(new Episodes(movieNumber, name, movieLink));
 	}
-	
+
 	public void removeAllMovies() {
 		model.getMovieList().clear();
 	}
-	
+
 	public void removeMovie(int index) {
 		model.getMovieList().remove(index);
 	}
-	
+
 	public void addAllEpisodes(List<Episodes> episodeList) {
 		model.getEpisodesList().addAll(episodeList);
 	}
@@ -199,7 +236,7 @@ public class MainWindowController {
 
 		return retList;
 	}
-	
+
 	private List<Episodes> convertFromExtractEpisodesToEpisodes(List<extractEpisodes> list) {
 		List<Episodes> retList = new ArrayList<>();
 

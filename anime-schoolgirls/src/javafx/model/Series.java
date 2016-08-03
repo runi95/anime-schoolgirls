@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 public class Series {
 
 	private ImageView watchlistIcon = new ImageView();
+	private int watchlistState = 0;
 	private String name, description, rating, image, id, watchlist;
 
 	public Series(String name, String description, String rating, String image, String id, String watchlist) {
@@ -16,6 +17,7 @@ public class Series {
 		this.image = image;
 		this.id = id;
 		this.watchlist = watchlist;
+		watchlistState = IntegerParser.parseInt(watchlist);
 		
 		watchlistIcon.setFitHeight(16);
 		watchlistIcon.setFitWidth(16);
@@ -23,7 +25,7 @@ public class Series {
 	}
 
 	private void setWatchlistIcon(String watchlist) {
-		switch (IntegerParser.parseInt(watchlist)) {
+		switch (watchlistState) {
 		case 0:
 			 watchlistIcon.setImage(new
 			 Image("/javafx/view/image/empty-star.png"));
