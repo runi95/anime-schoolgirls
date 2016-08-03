@@ -1,25 +1,8 @@
 package javafx.model;
 
-import backend.FileManager;
 import backend.IntegerParser;
-//import javafx.scene.image.Image;
-//import javafx.scene.image.ImageView;
-import javafx.scene.control.Label;
-import javafx.scene.control.LabelBuilder;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 
 public class Series {
 
@@ -34,17 +17,19 @@ public class Series {
 		this.id = id;
 		this.watchlist = watchlist;
 		
-		watchlistIcon.setFitHeight(64);
-		watchlistIcon.setFitWidth(64);
+		watchlistIcon.setFitHeight(16);
+		watchlistIcon.setFitWidth(16);
 		setWatchlistIcon(watchlist);
 	}
 
 	private void setWatchlistIcon(String watchlist) {
 		switch (IntegerParser.parseInt(watchlist)) {
-
-		default:
+		case 0:
 			 watchlistIcon.setImage(new
-			 Image("/javafx/view/image/noimage.png"));
+			 Image("/javafx/view/image/empty-star.png"));
+		case 1:
+			 watchlistIcon.setImage(new
+			 Image("/javafx/view/image/full-star.png"));
 		}
 	}
 
