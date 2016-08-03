@@ -27,9 +27,11 @@ public class Series {
 		case 0:
 			 watchlistIcon.setImage(new
 			 Image("/javafx/view/image/empty-star.png"));
+			 break;
 		case 1:
 			 watchlistIcon.setImage(new
 			 Image("/javafx/view/image/full-star.png"));
+			 break;
 		}
 	}
 

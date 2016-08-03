@@ -83,9 +83,9 @@ public class MainWindowView extends SplitPane implements Initializable {
 		TableColumn tcCS1 = new TableColumn<>("Watchlist");
 		tcCS1.setCellValueFactory(new PropertyValueFactory<>("watchlistIcon"));
 		tcCS1.setEditable(false);
-//		tcCS1.setMinWidth(64);
-//        tcCS1.setMaxWidth(64);
-//        tcCS1.setPrefWidth(64);
+		tcCS1.setMinWidth(64);
+        tcCS1.setMaxWidth(64);
+        tcCS1.setPrefWidth(64);
         TableColumn tcCS2 = new TableColumn<>("Name");
         tcCS2.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcCS2.setEditable(false);
