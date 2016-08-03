@@ -87,13 +87,17 @@ public class MainWindowView extends SplitPane implements Initializable {
         TableColumn tcCS2 = new TableColumn<>("Rating");
         tcCS2.setCellValueFactory(new PropertyValueFactory<>("rating"));
         tcCS2.setEditable(false);
-        tcCS2.setMaxWidth(200);
+        tcCS2.setMinWidth(75);
+        tcCS2.setMaxWidth(75);
+        tcCS2.setPrefWidth(75);
         
         /* initialize and specify table column for episodes */
         TableColumn tcCE1 = new TableColumn<>("Episode");
         tcCE1.setCellValueFactory(new PropertyValueFactory<>("epnumber"));
         tcCE1.setEditable(false);
-        tcCE1.setPrefWidth(10);
+        tcCE1.setPrefWidth(75);
+        tcCE1.setMaxWidth(75);
+        tcCE1.setMinWidth(75);
         TableColumn tcCE2 = new TableColumn<>("Name");
         tcCE2.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcCE2.setEditable(false);

@@ -29,8 +29,8 @@
                      <center>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Button fx:id="stopButton" focusTraversable="false" mnemonicParsing="false" text="Stop" />
                               <Button fx:id="startButton" focusTraversable="false" mnemonicParsing="false" text="Start" onAction="#playEpisode"/>
+                              <Button fx:id="stopButton" visible="false" focusTraversable="false" mnemonicParsing="false" text="Stop" />
                            </children>
                         </HBox>
                      </center>
