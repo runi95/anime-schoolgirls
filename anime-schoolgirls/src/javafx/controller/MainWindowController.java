@@ -81,7 +81,7 @@ public class MainWindowController {
 			createNewEpisodesThread(id);
 	}
 
-	private void createNewEpisodesThread(String id) {
+	private synchronized void createNewEpisodesThread(String id) {
 		removeAllEpisodes();
 		removeAllMovies();
 		grabFTW ftwdaemon = new grabFTW();

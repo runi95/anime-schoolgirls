@@ -3,6 +3,7 @@ package javafx.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import backend.WaitingThread;
 import javafx.Resources;
 import javafx.collections.ObservableList;
 import javafx.controller.MainWindowController;
@@ -28,6 +29,9 @@ public class MainWindowView extends SplitPane implements Initializable {
 	private ObservableList<Episodes> movieList;
 	
 	private MainWindowController controller;
+	
+	private Thread thread = null;
+	private WaitingThread waitingThread = null;
 	
 	@SuppressWarnings("rawtypes")
 	@FXML TabPane episodeTabs;
@@ -57,13 +61,45 @@ public class MainWindowView extends SplitPane implements Initializable {
 		seriesDescription.setText(description);
 	}
 	
-	// TODO: Add thread pool, fix multithreading issue with images.
+	//TODO: Fix multi-threading as this has a slight chance to crash!
 	public void setSeriesImage(String url) {
 		seriesImage.setImage(new Image("/javafx/view/image/noimage.png"));
-		Thread thread = new Thread() {
+		if(thread != null) {
+			thread.interrupt();
+			
+			if(waitingThread != null)
+				waitingThread.setSeriesId(url);
+			else{
+				waitingThread = new WaitingThread(url) {
+					@Override
+					public void run() {
+						while (thread != null) {
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+						setImageThread(getSeriesId());
+						waitingThread = null;
+					}
+				};
+
+				waitingThread.start();
+			}
+		}else
+			setImageThread(url);
+	}
+	
+	private synchronized void setImageThread(String url) {
+		thread = new Thread() {
 			@Override
 			public void run() {
 				seriesImage.setImage(new Image(url));
+				
+				thread = null;
 			}
 		};
 		thread.start();
