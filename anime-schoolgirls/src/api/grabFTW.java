@@ -76,7 +76,7 @@ public class grabFTW {
 			urlParameters.add(new BasicNameValuePair("token", Config.userToken));
 			urlParameters.add(new BasicNameValuePair("action", Action));
 			urlParameters.add(new BasicNameValuePair("id", id));
-//			urlParameters.add(new BasicNameValuePair("num", "12345"));
+			urlParameters.add(new BasicNameValuePair("count", "999"));
 
 			post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
