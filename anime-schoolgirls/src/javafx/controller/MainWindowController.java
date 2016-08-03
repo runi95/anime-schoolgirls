@@ -29,8 +29,8 @@ public class MainWindowController {
 		model.getList().addAll(videoList);
 	}
 	
-	public void addSeries(String name, String description, String rating, String image) {
-		model.getList().add(new Series(name, description, rating, image));
+	public void addSeries(String name, String description, String rating, String image, String id) {
+		model.getList().add(new Series(name, description, rating, image, id));
 	}
 	
 	public void removeAllVideos() {
@@ -89,8 +89,8 @@ public class MainWindowController {
 		System.out.println("extractSeries = " + list.size());
 		
 		for(extractSeries series : list) {
-			String name = series.getfullSeriesName(), description = series.getdescription(), image = series.getimage(), rating = series.getratingString();
-			retList.add(new Series(name, description, rating, image));
+			String name = series.getfullSeriesName(), description = series.getdescription(), image = series.getimage(), rating = series.getratingString(), id = series.getid();
+			retList.add(new Series(name, description, rating, image, id));
 		}
 		
 		return retList;
