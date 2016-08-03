@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import api.JsonDecoder;
+import api.JsonDecoder.extractEpisodes;
 import api.JsonDecoder.extractSeries;
 import api.grabFTW;
+import javafx.model.Episodes;
 import javafx.model.MainWindowModel;
 import javafx.model.Series;
 import javafx.model.Video;
 import javafx.scene.Node;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.view.MainWindowView;
@@ -18,81 +21,160 @@ public class MainWindowController {
 
 	private MainWindowModel model;;
 	private MainWindowView view;
-	
+
 	public MainWindowController(MainWindowModel model, MainWindowView view) {
 		this.model = model;
 		this.view = view;
-		addVideosFromAnimeFTW();
+		setListeners(view.getSeriesTable(), view.getEpisodesTable());
+		addSeriesFromAnimeFTW();
 	}
-	
-	public void addAllSeries(List<Series> videoList) {
-		model.getList().addAll(videoList);
+
+	@SuppressWarnings("unchecked")
+	private void setListeners(TableView seriesTable, TableView episodesTable) {
+		seriesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection != null) {
+				Series series = (Series) seriesTable.getSelectionModel().getSelectedItem();
+				if (series != null) {
+					view.setSeriesDescription(series.getDescription());
+					view.setSeriesImage(series.getImage());
+					addEpisodesFromFTW(series.getId());
+				}
+			}
+		});
 	}
-	
+
+	public void addEpisodesFromFTW(String id) {
+		removeAllEpisodes();
+
+		grabFTW ftwdaemon = new grabFTW();
+
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					List<extractEpisodes> extractSeries;
+					extractSeries = JsonDecoder.getEpisodes(ftwdaemon.getEpisodesByid("display-episodes", id));
+
+					addAllEpisodes(convertFromExtractEpisodesToEpisodes(extractSeries));
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+
+				}
+			}
+		}.start();
+	}
+
+	public void addAllEpisodes(List<Episodes> episodeList) {
+		model.getEpisodesList().addAll(episodeList);
+	}
+
+	public void addEpisodes(int epNumber, String name) {
+		model.getEpisodesList().add(new Episodes(epNumber, name));
+	}
+
+	public void removeAllEpisodes() {
+		model.getEpisodesList().clear();
+	}
+
+	public void removeEpisode(int index) {
+		model.getEpisodesList().remove(index);
+	}
+
+	public void addAllSeries(List<Series> seriesList) {
+		model.getSeriesList().addAll(seriesList);
+	}
+
 	public void addSeries(String name, String description, String rating, String image, String id) {
-		model.getList().add(new Series(name, description, rating, image, id));
+		model.getSeriesList().add(new Series(name, description, rating, image, id));
 	}
-	
+
 	public void removeAllVideos() {
-		model.getList().clear();
+		model.getSeriesList().clear();
 	}
-	
+
 	public void removeVideo(int index) {
-		model.getList().remove(index);
+		model.getSeriesList().remove(index);
 	}
-	
+
 	public Image getImageFromURL(String imageURL) {
 		Image img = null;
-		try{
+		try {
 			img = new Image(imageURL);
-		}catch(NullPointerException | IllegalArgumentException e) {
+		} catch (NullPointerException | IllegalArgumentException e) {
 			/* If fetching image fails, use stock image */
-			
+
 			img = new Image("javafx/view/image/noimage.jpg");
 		}
-		
+
 		return img;
 	}
 
 	public Node getView() {
 		return view;
 	}
-	
+
 	/*
-	private Image getRatingImage(String rating) { 
-		switch(rating) {
-		
-		
-		default:
-			return new Image("javafx/view/image/noimage.jpg");
-		}
-	}
-	*/
-	
-	private void addVideosFromAnimeFTW() {
-		List<extractSeries> extractSeries;
+	 * private Image getRatingImage(String rating) { switch(rating) {
+	 * 
+	 * 
+	 * default: return new Image("javafx/view/image/noimage.jpg"); } }
+	 */
+
+	private void addSeriesFromAnimeFTW() {
 		grabFTW ftwdaemon = new grabFTW();
-		
-		try {
-			extractSeries = JsonDecoder.getSeries(ftwdaemon.getListing("display-series", 3));
-			addAllSeries(convertFromExtractSeriesToSeries(extractSeries));
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		
-		}
+
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					List<extractSeries> extractSeries;
+
+					extractSeries = JsonDecoder.getSeries(ftwdaemon.getListing("display-series", 1600));
+					addAllSeries(convertFromExtractSeriesToSeries(extractSeries));
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+
+				}
+			}
+		}.start();
 	}
-	
+
+	private List<Episodes> convertFromExtractEpisodesToEpisodes(List<extractEpisodes> list) {
+		List<Episodes> retList = new ArrayList<>();
+
+		for (extractEpisodes episodes : list) {
+			int epNumber = parseInt(episodes.getepnumber());
+			String name = episodes.getepname();
+			if (parseInt(episodes.Movie()) != 1)
+				retList.add(new Episodes(epNumber, name));
+		}
+
+		return retList;
+	}
+
+	private int parseInt(String integer) {
+		int parsedInt = -1;
+
+		try {
+			parsedInt = Integer.parseInt(integer);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+
+		return parsedInt;
+	}
+
 	private List<Series> convertFromExtractSeriesToSeries(List<extractSeries> list) {
 		List<Series> retList = new ArrayList<>();
-		
-		System.out.println("extractSeries = " + list.size());
-		
-		for(extractSeries series : list) {
-			String name = series.getfullSeriesName(), description = series.getdescription(), image = series.getimage(), rating = series.getratingString(), id = series.getid();
+
+		for (extractSeries series : list) {
+			String name = series.getfullSeriesName(), description = series.getdescription(), image = series.getimage(),
+					rating = series.getratingString(), id = series.getid();
 			retList.add(new Series(name, description, rating, image, id));
 		}
-		
+
 		return retList;
 	}
 }
