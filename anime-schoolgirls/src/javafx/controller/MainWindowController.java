@@ -49,6 +49,7 @@ public class MainWindowController {
 		});
 	}
 
+	//TODO: Fix multi-threading as this has a slight chance to crash!
 	public void addEpisodesFromFTW(String id) {
 		if (thread != null) {
 			thread.interrupt();
