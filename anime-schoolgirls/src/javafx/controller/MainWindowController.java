@@ -15,9 +15,11 @@ import javafx.model.MainWindowModel;
 import javafx.model.Series;
 import javafx.model.Video;
 import javafx.scene.Node;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.view.MainWindowView;
 
 public class MainWindowController {
@@ -54,10 +56,10 @@ public class MainWindowController {
 		if (thread != null) {
 			thread.interrupt();
 
-			if (waitingThread != null)
-				waitingThread.setSeriesId(id);
+			if (getWaitThread() != null)
+				getWaitThread().setSeriesId(id);
 			else {
-				waitingThread = new WaitingThread(id) {
+				setWaitingThread(new WaitingThread(id) {
 					@Override
 					public void run() {
 						while (thread != null) {
@@ -70,21 +72,31 @@ public class MainWindowController {
 						}
 
 						createNewEpisodesThread(getSeriesId());
-						waitingThread = null;
+						setWaitingThread(null);
 					}
-				};
+				});
 
-				waitingThread.start();
+				getWaitThread().start();
 			}
 
 		} else
 			createNewEpisodesThread(id);
 	}
 
+	private synchronized void setWaitingThread(WaitingThread waitingThread) { this.waitingThread = waitingThread; } 
+	private synchronized WaitingThread getWaitThread() { return waitingThread; }
+	
 	private synchronized void createNewEpisodesThread(String id) {
 		removeAllEpisodes();
 		removeAllMovies();
 		grabFTW ftwdaemon = new grabFTW();
+		
+		Node oldPlaceHolder = view.getEpisodesTable().getPlaceholder();
+		
+		ProgressIndicator progress = new ProgressIndicator();
+		progress.setMaxSize(90, 90);
+		view.getEpisodesTable().setPlaceholder(new StackPane(progress));
+//		view.getEpisodesTable().getItems().clear();
 
 		thread = new Thread() {
 			@Override
@@ -92,13 +104,17 @@ public class MainWindowController {
 				try {
 					List<extractEpisodes> extractEpisodes;
 					extractEpisodes = JsonDecoder.getEpisodes(ftwdaemon.getEpisodesByid("display-episodes", id));
-
-					addAllEpisodes(convertFromExtractEpisodesToEpisodes(extractEpisodes));
-					addAllMovies(convertFromExtractEpisodesToMovies(extractEpisodes));
-				} catch (Exception e1) {
+					
+					if(getWaitThread() == null) {
+						addAllEpisodes(convertFromExtractEpisodesToEpisodes(extractEpisodes));
+						addAllMovies(convertFromExtractEpisodesToMovies(extractEpisodes));
+					}
+					} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} finally {
+					if(getWaitThread() == null)
+						view.getEpisodesTable().setPlaceholder(oldPlaceHolder);
 					thread = null;
 				}
 			}
