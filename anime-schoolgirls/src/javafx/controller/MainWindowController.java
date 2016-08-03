@@ -69,9 +69,19 @@ public class MainWindowController {
 	}
 
 	public void playEpisode() {
-		Episodes episode = (Episodes)view.getEpisodesTable().getSelectionModel().getSelectedItem();
+		Episodes episode = null;
 		
-		runEpisode(episode.getEpLink());
+		switch(view.getEpisodeTabs().getSelectionModel().getSelectedIndex()) {
+		case 0:
+			episode = (Episodes)view.getEpisodesTable().getSelectionModel().getSelectedItem();
+			break;
+		case 1:
+			episode = (Episodes)view.getMovieTable().getSelectionModel().getSelectedItem();
+			break;
+		}
+		
+		if(episode != null)
+			runEpisode(episode.getEpLink());
 	}
 	
 	private void runEpisode(String link) {
