@@ -7,11 +7,13 @@ import javafx.Resources;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.model.DescriptionTextArea;
 import javafx.model.Series;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MainWindowView extends SplitPane implements Initializable {
@@ -21,6 +23,7 @@ public class MainWindowView extends SplitPane implements Initializable {
 	@SuppressWarnings("rawtypes")
 	@FXML TableView seriesTable;
 	@FXML ScrollPane scrollPane;
+	@FXML DescriptionTextArea description;
 
 	public MainWindowView(ObservableList<Series> list) {
 		this.list = list;
@@ -53,6 +56,5 @@ public class MainWindowView extends SplitPane implements Initializable {
             	System.out.println(seriesTable.getSelectionModel().getSelectedItem());
             }
         });
-
 	}
 }
