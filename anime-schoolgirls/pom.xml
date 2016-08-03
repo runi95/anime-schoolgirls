@@ -26,7 +26,6 @@
       </plugin>
     </plugins>
   </build>
-  <packaging>pom</packaging>
   <dependencies>
   	<dependency>
   		<groupId>su.litvak.chromecast</groupId>
