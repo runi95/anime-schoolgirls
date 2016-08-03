@@ -31,7 +31,7 @@
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <children>
                               <Button fx:id="stopButton" focusTraversable="false" mnemonicParsing="false" text="Stop" />
-                              <Button fx:id="startButton" focusTraversable="false" mnemonicParsing="false" text="Start" />
+                              <Button fx:id="startButton" focusTraversable="false" mnemonicParsing="false" text="Start" onAction="#playEpisode"/>
                            </children>
                         </HBox>
                      </center>
@@ -50,7 +50,7 @@
          <items>
             <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Untitled Tab 1">
+                <Tab text="All Series">
                      <content>
                         <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
                   			<content>

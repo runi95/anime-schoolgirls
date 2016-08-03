@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.Resources;
 import javafx.collections.ObservableList;
+import javafx.controller.MainWindowController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.model.DescriptionTextArea;
@@ -24,6 +25,8 @@ public class MainWindowView extends SplitPane implements Initializable {
 	private ObservableList<Series> seriesList;
 	private ObservableList<Episodes> episodeList;
 	
+	private MainWindowController controller;
+	
 	@SuppressWarnings("rawtypes")
 	@FXML TableView seriesTable;
 	@FXML TableView epTable;
@@ -35,6 +38,14 @@ public class MainWindowView extends SplitPane implements Initializable {
 		this.seriesList = seriesList;
 		this.episodeList = episodesList;
 		Resources.loadFXML(this);
+	}
+	
+	public void setController(MainWindowController controller) {
+		this.controller = controller;
+	}
+	
+	public void playEpisode() {
+		controller.playEpisode();
 	}
 	
 	public void setSeriesDescription(String description) {

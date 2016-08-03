@@ -1,5 +1,6 @@
 package javafx.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,12 +66,29 @@ public class MainWindowController {
 		}.start();
 	}
 
+	public void playEpisode() {
+		Episodes episode = (Episodes)view.getEpisodesTable().getSelectionModel().getSelectedItem();
+		
+		runEpisode(episode.getEpLink());
+	}
+	
+	private void runEpisode(String link) {
+		System.err.println("GOT THIS FAR");
+		String[] arguments = new String[] {"mpv", "--user-agent", "\"HenningCast/mpv\"", link};
+		try {
+			Process proc = new ProcessBuilder(arguments).start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void addAllEpisodes(List<Episodes> episodeList) {
 		model.getEpisodesList().addAll(episodeList);
 	}
 
-	public void addEpisodes(int epNumber, String name) {
-		model.getEpisodesList().add(new Episodes(epNumber, name));
+	public void addEpisodes(int epNumber, String name, String epLink) {
+		model.getEpisodesList().add(new Episodes(epNumber, name, epLink));
 	}
 
 	public void removeAllEpisodes() {
@@ -146,9 +164,9 @@ public class MainWindowController {
 
 		for (extractEpisodes episodes : list) {
 			int epNumber = parseInt(episodes.getepnumber());
-			String name = episodes.getepname();
+			String name = episodes.getepname(), epLink = episodes.getvideo();
 			if (parseInt(episodes.Movie()) != 1)
-				retList.add(new Episodes(epNumber, name));
+				retList.add(new Episodes(epNumber, name, epLink));
 		}
 
 		return retList;
