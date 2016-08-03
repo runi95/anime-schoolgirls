@@ -223,7 +223,13 @@ public class MainWindowController {
 
 	private void addSeriesFromAnimeFTW() {
 		grabFTW ftwdaemon = new grabFTW();
-
+		
+		Node oldPlaceHolder = view.getEpisodesTable().getPlaceholder();
+		
+		ProgressIndicator progress = new ProgressIndicator();
+		progress.setMaxSize(90, 90);
+		view.getSeriesTable().setPlaceholder(new StackPane(progress));
+		
 		new Thread() {
 			@Override
 			public void run() {
@@ -235,7 +241,8 @@ public class MainWindowController {
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-
+				}finally{
+					view.getSeriesTable().setPlaceholder(oldPlaceHolder);
 				}
 			}
 		}.start();
