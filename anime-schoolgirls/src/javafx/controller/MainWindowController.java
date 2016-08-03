@@ -8,6 +8,7 @@ import api.JsonDecoder;
 import api.JsonDecoder.extractEpisodes;
 import api.JsonDecoder.extractSeries;
 import api.grabFTW;
+import backend.IntegerParser;
 import javafx.model.Episodes;
 import javafx.model.MainWindowModel;
 import javafx.model.Series;
@@ -130,8 +131,8 @@ public class MainWindowController {
 		model.getSeriesList().addAll(seriesList);
 	}
 
-	public void addSeries(String name, String description, String rating, String image, String id) {
-		model.getSeriesList().add(new Series(name, description, rating, image, id));
+	public void addSeries(String name, String description, String rating, String image, String id, String watchlist) {
+		model.getSeriesList().add(new Series(name, description, rating, image, id, watchlist));
 	}
 
 	public void removeAllVideos() {
@@ -190,9 +191,9 @@ public class MainWindowController {
 		List<Episodes> retList = new ArrayList<>();
 
 		for (extractEpisodes episodes : list) {
-			int epNumber = parseInt(episodes.getepnumber());
+			int epNumber = IntegerParser.parseInt(episodes.getepnumber());
 			String name = episodes.getepname(), epLink = episodes.getvideo();
-			if (parseInt(episodes.Movie()) == 1)
+			if (IntegerParser.parseInt(episodes.Movie()) == 1)
 				retList.add(new Episodes(epNumber, name, epLink));
 		}
 
@@ -203,25 +204,13 @@ public class MainWindowController {
 		List<Episodes> retList = new ArrayList<>();
 
 		for (extractEpisodes episodes : list) {
-			int epNumber = parseInt(episodes.getepnumber());
+			int epNumber = IntegerParser.parseInt(episodes.getepnumber());
 			String name = episodes.getepname(), epLink = episodes.getvideo();
-			if (parseInt(episodes.Movie()) != 1)
+			if (IntegerParser.parseInt(episodes.Movie()) != 1)
 				retList.add(new Episodes(epNumber, name, epLink));
 		}
 
 		return retList;
-	}
-
-	private int parseInt(String integer) {
-		int parsedInt = -1;
-
-		try {
-			parsedInt = Integer.parseInt(integer);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-
-		return parsedInt;
 	}
 
 	private List<Series> convertFromExtractSeriesToSeries(List<extractSeries> list) {
@@ -229,8 +218,8 @@ public class MainWindowController {
 
 		for (extractSeries series : list) {
 			String name = series.getfullSeriesName(), description = series.getdescription(), image = series.getimage(),
-					rating = series.getratingString(), id = series.getid();
-			retList.add(new Series(name, description, rating, image, id));
+					rating = series.getratingString(), id = series.getid(), watchlist = series.getwatchlist();
+			retList.add(new Series(name, description, rating, image, id, watchlist));
 		}
 
 		return retList;

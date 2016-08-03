@@ -80,16 +80,22 @@ public class MainWindowView extends SplitPane implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
         /* initialize and specify table column for series */
-        TableColumn tcCS1 = new TableColumn<>("Name");
-        tcCS1.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tcCS1.setEditable(false);
-        tcCS1.setPrefWidth(400);
-        TableColumn tcCS2 = new TableColumn<>("Rating");
-        tcCS2.setCellValueFactory(new PropertyValueFactory<>("rating"));
+		TableColumn tcCS1 = new TableColumn<>("Watchlist");
+		tcCS1.setCellValueFactory(new PropertyValueFactory<>("watchlistIcon"));
+		tcCS1.setEditable(false);
+//		tcCS1.setMinWidth(64);
+//        tcCS1.setMaxWidth(64);
+//        tcCS1.setPrefWidth(64);
+        TableColumn tcCS2 = new TableColumn<>("Name");
+        tcCS2.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcCS2.setEditable(false);
-        tcCS2.setMinWidth(75);
-        tcCS2.setMaxWidth(75);
-        tcCS2.setPrefWidth(75);
+        tcCS2.setPrefWidth(400);
+        TableColumn tcCS3 = new TableColumn<>("Rating");
+        tcCS3.setCellValueFactory(new PropertyValueFactory<>("rating"));
+        tcCS3.setEditable(false);
+        tcCS3.setMinWidth(75);
+        tcCS3.setMaxWidth(75);
+        tcCS3.setPrefWidth(75);
         
         /* initialize and specify table column for episodes */
         TableColumn tcCE1 = new TableColumn<>("Episode");
@@ -114,6 +120,7 @@ public class MainWindowView extends SplitPane implements Initializable {
         /* add column to the tableview and set its items */
         seriesTable.getColumns().add(tcCS1);
         seriesTable.getColumns().add(tcCS2);
+        seriesTable.getColumns().add(tcCS3);
         seriesTable.setItems(seriesList);
         
         epTable.getColumns().add(tcCE1);
