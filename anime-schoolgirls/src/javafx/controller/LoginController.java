@@ -19,8 +19,6 @@ import javafx.view.MainWindowView;
 public class LoginController {
 	private LoginView view;
 	private LoginModel model;
-	private final static String USER_HOME = System.getProperty("user.home") + System.getProperty("file.separator")
-			+ "anime-hentai" + System.getProperty("file.separator");
 
 	public LoginController(LoginModel model, LoginView view) {
 		this.model = model;
@@ -63,11 +61,11 @@ public class LoginController {
 		String date = dateFormat.format(new Date());
 		UserInfo user = new UserInfo(username, password, Config.userToken, date);
 		saveToggleInfo("TRUE");
-		FileManager.writeFile(USER_HOME, "user.info", user.toString());
+		FileManager.writeFile(FileManager.USER_HOME, "user.info", user.toString());
 	}
 
 	private void saveToggleInfo(String toggle) {
-		FileManager.writeFile(USER_HOME, "user.settings", toggle);
+		FileManager.writeFile(FileManager.USER_HOME, "user.settings", toggle);
 	}
 
 	private void loadUserSettings() {
@@ -133,7 +131,7 @@ public class LoginController {
 	}
 
 	private boolean readToggleState() {
-		ArrayList<String> text = FileManager.readFile(USER_HOME + "user.settings");
+		ArrayList<String> text = FileManager.readFile(FileManager.USER_HOME + "user.settings");
 
 		for (String s : text) {
 			switch (s) {
@@ -148,7 +146,7 @@ public class LoginController {
 	}
 
 	private UserInfo readUser() {
-		ArrayList<String> text = FileManager.readFile(USER_HOME + "user.info");
+		ArrayList<String> text = FileManager.readFile(FileManager.USER_HOME + "user.info");
 
 		String username = null, password = null, token = null, date = null;
 

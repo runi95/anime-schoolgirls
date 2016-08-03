@@ -8,6 +8,9 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class FileManager {
+	
+	public final static String USER_HOME = System.getProperty("user.home") + System.getProperty("file.separator")
+	+ "anime-hentai" + System.getProperty("file.separator");
 
 	public static ArrayList<String> readFile(String fileLocation) {
 		ArrayList<String> text = new ArrayList<>();
