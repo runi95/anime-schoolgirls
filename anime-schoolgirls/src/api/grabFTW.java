@@ -61,7 +61,7 @@ public class grabFTW {
 
 		}
 		
-		public String getEpisodesByid(String Action, int Id) throws Exception {
+		public String getEpisodesByid(String Action, String id) throws Exception {
 			
 			String url = Config.BASE_URL;
 
@@ -75,7 +75,7 @@ public class grabFTW {
 			urlParameters.add(new BasicNameValuePair("devkey", Config.DEV_KEY));
 			urlParameters.add(new BasicNameValuePair("token", Config.userToken));
 			urlParameters.add(new BasicNameValuePair("action", Action));
-			urlParameters.add(new BasicNameValuePair("id", Integer.toString(Id)));
+			urlParameters.add(new BasicNameValuePair("id", id));
 //			urlParameters.add(new BasicNameValuePair("num", "12345"));
 
 			post.setEntity(new UrlEncodedFormEntity(urlParameters));

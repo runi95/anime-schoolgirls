@@ -40,10 +40,10 @@
             </VBox>
          </right>
          <left>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+            <ImageView fx:id="seriesImage" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
          </left>
          <center>
-            <DescriptionTextArea editable="false" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" BorderPane.alignment="CENTER" />
+            <DescriptionTextArea fx:id="seriesDescription" editable="false" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
       <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0">

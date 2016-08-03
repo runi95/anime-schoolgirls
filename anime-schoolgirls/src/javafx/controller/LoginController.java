@@ -174,7 +174,7 @@ public class LoginController {
 
 	private void loadMainScreen() {
 		MainWindowModel model = new MainWindowModel();
-		MainWindowView view = new MainWindowView(model.getList());
+		MainWindowView view = new MainWindowView(model.getSeriesList(), model.getEpisodesList());
 		MainWindowController controller = new MainWindowController(model, view);
 		SceneController.setScene(view);
 	}
