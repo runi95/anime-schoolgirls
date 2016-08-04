@@ -120,7 +120,6 @@ public class MainWindowView extends SplitPane implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
         /* add column to the tableview and set its items */
-        topseriesTable.getColumns().add(createNewTableColumn("Watchlist", "watchlistIcon", 64, 64, 64));
         topseriesTable.getColumns().add(createNewTableColumn("Name", "name", -1, 400, -1));
         topseriesTable.getColumns().add(createNewTableColumn("Rating", "rating", 75, 75, 75));
         topseriesTable.setItems(topseriesList);
