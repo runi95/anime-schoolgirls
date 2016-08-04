@@ -101,9 +101,7 @@ public class MainWindowController {
 		ProgressIndicator moviesProgress = new ProgressIndicator();
 		seriesProgress.setMaxSize(90, 90);
 		moviesProgress.setMaxSize(90, 90);
-		view.getEpisodesTable().setPlaceholder(new StackPane(seriesProgress));
-		view.getMovieTable().setPlaceholder(new StackPane(moviesProgress));
-//		view.getEpisodesTable().getItems().clear();
+		setPlaceHolders(new StackPane(seriesProgress), new StackPane(moviesProgress));
 
 		thread = new Thread() {
 			@Override
@@ -131,12 +129,12 @@ public class MainWindowController {
 		thread.start();
 	}
 	
-	private void setPlaceHolders(Node oldSeriesPlaceHolder, Node oldMoviesPlaceHolder) {
+	private void setPlaceHolders(Node newSeriesPlaceHolder, Node newMoviesPlaceHolder) {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
-				view.getEpisodesTable().setPlaceholder(oldSeriesPlaceHolder);
-				view.getMovieTable().setPlaceholder(oldMoviesPlaceHolder);
+				view.getEpisodesTable().setPlaceholder(newSeriesPlaceHolder);
+				view.getMovieTable().setPlaceholder(newMoviesPlaceHolder);
 			}
 		});
 	}
