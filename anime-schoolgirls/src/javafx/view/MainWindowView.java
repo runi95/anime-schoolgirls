@@ -23,7 +23,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MainWindowView extends SplitPane implements Initializable {
-
+	
+	private ObservableList<Series> topseriesList;
 	private ObservableList<Series> seriesList;
 	private ObservableList<Episodes> episodeList;
 	private ObservableList<Episodes> movieList;
@@ -35,6 +36,7 @@ public class MainWindowView extends SplitPane implements Initializable {
 	
 	@SuppressWarnings("rawtypes")
 	@FXML TabPane episodeTabs;
+	@FXML TableView topseriesTable;
 	@FXML TableView seriesTable;
 	@FXML TableView epTable;
 	@FXML TableView movieTable;
@@ -42,7 +44,8 @@ public class MainWindowView extends SplitPane implements Initializable {
 	@FXML ImageView seriesImage;
 	@FXML DescriptionTextArea seriesDescription;
 
-	public MainWindowView(ObservableList<Series> seriesList, ObservableList<Episodes> episodesList, ObservableList<Episodes> movieList) {
+	public MainWindowView(ObservableList<Series> topseriesList, ObservableList<Series> seriesList, ObservableList<Episodes> episodesList, ObservableList<Episodes> movieList) {
+		this.topseriesList = topseriesList;
 		this.seriesList = seriesList;
 		this.episodeList = episodesList;
 		this.movieList = movieList;
@@ -105,66 +108,49 @@ public class MainWindowView extends SplitPane implements Initializable {
 		thread.start();
 	}
 	
+	public TableView getTopSeriesTable() { return topseriesTable; }
 	public TableView getSeriesTable() { return seriesTable; }
 	public TableView getEpisodesTable() { return epTable; }
 	public TableView getMovieTable() { return movieTable; }
 	
 	public TabPane getEpisodeTabs() { return episodeTabs; }
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-        /* initialize and specify table column for series */
-		TableColumn tcCS1 = new TableColumn<>("Watchlist");
-		tcCS1.setCellValueFactory(new PropertyValueFactory<>("watchlistIcon"));
-		tcCS1.setEditable(false);
-		tcCS1.setMinWidth(64);
-        tcCS1.setMaxWidth(64);
-        tcCS1.setPrefWidth(64);
-        TableColumn tcCS2 = new TableColumn<>("Name");
-        tcCS2.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tcCS2.setEditable(false);
-        tcCS2.setPrefWidth(400);
-        TableColumn tcCS3 = new TableColumn<>("Rating");
-        tcCS3.setCellValueFactory(new PropertyValueFactory<>("rating"));
-        tcCS3.setEditable(false);
-        tcCS3.setMinWidth(75);
-        tcCS3.setMaxWidth(75);
-        tcCS3.setPrefWidth(75);
-        
-        /* initialize and specify table column for episodes */
-        TableColumn tcCE1 = new TableColumn<>("Episode");
-        tcCE1.setCellValueFactory(new PropertyValueFactory<>("epnumber"));
-        tcCE1.setEditable(false);
-        tcCE1.setPrefWidth(75);
-        tcCE1.setMaxWidth(75);
-        tcCE1.setMinWidth(75);
-        TableColumn tcCE2 = new TableColumn<>("Name");
-        tcCE2.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tcCE2.setEditable(false);
-        
-        /* initialize and specify table column for movies */
-        TableColumn tcCM1 = new TableColumn<>("Movie");
-        tcCM1.setCellValueFactory(new PropertyValueFactory<>("epnumber"));
-        tcCM1.setEditable(false);
-        tcCM1.setPrefWidth(10);
-        TableColumn tcCM2 = new TableColumn<>("Name");
-        tcCM2.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tcCM2.setEditable(false);
-
         /* add column to the tableview and set its items */
-        seriesTable.getColumns().add(tcCS1);
-        seriesTable.getColumns().add(tcCS2);
-        seriesTable.getColumns().add(tcCS3);
+        topseriesTable.getColumns().add(createNewTableColumn("Watchlist", "watchlistIcon", 64, 64, 64));
+        topseriesTable.getColumns().add(createNewTableColumn("Name", "name", -1, 400, -1));
+        topseriesTable.getColumns().add(createNewTableColumn("Rating", "rating", 75, 75, 75));
+        topseriesTable.setItems(topseriesList);
+        
+        seriesTable.getColumns().add(createNewTableColumn("Watchlist", "watchlistIcon", 64, 64, 64));
+        seriesTable.getColumns().add(createNewTableColumn("Name", "name", -1, 400, -1));
+        seriesTable.getColumns().add(createNewTableColumn("Rating", "rating", 75, 75, 75));
         seriesTable.setItems(seriesList);
         
-        epTable.getColumns().add(tcCE1);
-        epTable.getColumns().add(tcCE2);
+        epTable.getColumns().add(createNewTableColumn("Episode", "epnumber", 75, 75, 75));
+        epTable.getColumns().add(createNewTableColumn("Name", "name", -1, -1, -1));
         epTable.setItems(episodeList);
         
-        movieTable.getColumns().add(tcCM1);
-        movieTable.getColumns().add(tcCM2);
+        movieTable.getColumns().add(createNewTableColumn("Movie", "epnumber", -1, 10, -1));
+        movieTable.getColumns().add(createNewTableColumn("Name", "name", -1, -1, -1));
         movieTable.setItems(movieList);
+	}
+	
+	@SuppressWarnings({ "unchecked", "unused" })
+	private TableColumn createNewTableColumn(String columnName, String variableName, int minWidth, int prefWidth, int maxWidth) {
+		TableColumn column = new TableColumn<>(columnName);
+		column.setCellValueFactory(new PropertyValueFactory<>(variableName));
+		column.setEditable(false);
+		if(minWidth != -1)
+			column.setMinWidth(minWidth);
+		if(prefWidth != -1)
+			column.setPrefWidth(prefWidth);
+		if(maxWidth != -1)
+			column.setMaxWidth(maxWidth);
+        
+        return column;
 	}
 }

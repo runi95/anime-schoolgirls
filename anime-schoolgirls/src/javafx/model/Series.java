@@ -34,6 +34,10 @@ public class Series {
 			 watchlistIcon.setImage(new
 			 Image("/javafx/view/image/full-star.png"));
 			 break;
+			 
+		default:
+			watchlistIcon.setImage(new Image("/javafx/view/image/half-full-star.png"));
+			break;
 		}
 	}
 

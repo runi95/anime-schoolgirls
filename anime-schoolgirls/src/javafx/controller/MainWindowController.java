@@ -34,7 +34,9 @@ public class MainWindowController {
 		this.model = model;
 		this.view = view;
 		setListeners(view.getSeriesTable(), view.getEpisodesTable());
-		addSeriesFromAnimeFTW();
+		setListeners(view.getTopSeriesTable(), view.getEpisodesTable());
+		addTopSeriesFromAnimeFTW();
+		addAllSeriesFromAnimeFTW();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -50,7 +52,7 @@ public class MainWindowController {
 			}
 		});
 	}
-
+	
 	//TODO: Fix multi-threading as this has a slight chance to crash!
 	public void addEpisodesFromFTW(String id) {
 		if (thread != null) {
@@ -187,6 +189,22 @@ public class MainWindowController {
 		model.getEpisodesList().remove(index);
 	}
 
+	public void addAllTopSeries(List<Series> topseriesList) {
+		model.getTopSeriesList().addAll(topseriesList);
+	}
+	
+	public void addTopSeries(String name, String description, String rating, String image, String id, String watchlist) {
+		model.getTopSeriesList().add(new Series(name, description, rating, image, id, watchlist));
+	}
+	
+	public void removeAllTopSeries() {
+		model.getTopSeriesList().clear();
+	}
+	
+	public void removeTopSeries(int index) {
+		model.getTopSeriesList().remove(index);
+	}
+	
 	public void addAllSeries(List<Series> seriesList) {
 		model.getSeriesList().addAll(seriesList);
 	}
@@ -195,11 +213,11 @@ public class MainWindowController {
 		model.getSeriesList().add(new Series(name, description, rating, image, id, watchlist));
 	}
 
-	public void removeAllVideos() {
+	public void removeAllSeries() {
 		model.getSeriesList().clear();
 	}
 
-	public void removeVideo(int index) {
+	public void removeSeries(int index) {
 		model.getSeriesList().remove(index);
 	}
 
@@ -227,10 +245,37 @@ public class MainWindowController {
 	 * default: return new Image("javafx/view/image/noimage.jpg"); } }
 	 */
 
-	private void addSeriesFromAnimeFTW() {
+	private void addTopSeriesFromAnimeFTW() {
 		grabFTW ftwdaemon = new grabFTW();
 		
-		Node oldPlaceHolder = view.getEpisodesTable().getPlaceholder();
+		Node oldPlaceHolder = view.getTopSeriesTable().getPlaceholder();
+		
+		ProgressIndicator progress = new ProgressIndicator();
+		progress.setMaxSize(90, 90);
+		view.getTopSeriesTable().setPlaceholder(new StackPane(progress));
+		
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					List<extractSeries> extractSeries;
+
+					extractSeries = JsonDecoder.getSeries(ftwdaemon.getListing("top-series", 10));
+					addAllTopSeries(convertFromExtractSeriesToSeries(extractSeries));
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}finally{
+					view.getTopSeriesTable().setPlaceholder(oldPlaceHolder);
+				}
+			}
+		}.start();
+	}
+	
+	private void addAllSeriesFromAnimeFTW() {
+		grabFTW ftwdaemon = new grabFTW();
+		
+		Node oldPlaceHolder = view.getSeriesTable().getPlaceholder();
 		
 		ProgressIndicator progress = new ProgressIndicator();
 		progress.setMaxSize(90, 90);
@@ -288,7 +333,8 @@ public class MainWindowController {
 					rating = series.getratingString(), id = series.getid(), watchlist = series.getwatchlist();
 			retList.add(new Series(name, description, rating, image, id, watchlist));
 		}
-
+		System.out.println(retList.size());
+		
 		return retList;
 	}
 }

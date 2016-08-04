@@ -8,7 +8,7 @@ public class IntegerParser {
 		try {
 			parsedInt = Integer.parseInt(integer);
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 
 		return parsedInt;
