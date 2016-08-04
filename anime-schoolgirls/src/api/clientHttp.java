@@ -47,6 +47,7 @@ public class clientHttp {
 		
 		String url = Config.BASE_URL;
 
+		@SuppressWarnings("resource")
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(url);
 
@@ -76,6 +77,8 @@ public class clientHttp {
 		while ((line = rd.readLine()) != null) {
 			result.append(line);
 		}
+		
+		rd.close();
 
 		//System.out.println();
 		return JsonDecoder.handleJson(result.toString(), "token");
