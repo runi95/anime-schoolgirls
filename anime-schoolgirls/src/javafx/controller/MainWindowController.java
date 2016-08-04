@@ -91,15 +91,15 @@ public class MainWindowController {
 		removeAllMovies();
 		grabFTW ftwdaemon = new grabFTW();
 		
-		Node oldPlaceHolder = view.getEpisodesTable().getPlaceholder();
-		Node oldPlaceHolder2 = view.getMovieTable().getPlaceholder();
+		Node oldSeriesPlaceHolder = view.getEpisodesTable().getPlaceholder();
+		Node oldMoviesPlaceHolder = view.getMovieTable().getPlaceholder();
 		
-		ProgressIndicator progress = new ProgressIndicator();
-		ProgressIndicator progress2 = new ProgressIndicator();
-		progress.setMaxSize(90, 90);
-		progress2.setMaxSize(90, 90);
-		view.getEpisodesTable().setPlaceholder(new StackPane(progress));
-		view.getMovieTable().setPlaceholder(new StackPane(progress2));
+		ProgressIndicator seriesProgress = new ProgressIndicator();
+		ProgressIndicator moviesProgress = new ProgressIndicator();
+		seriesProgress.setMaxSize(90, 90);
+		moviesProgress.setMaxSize(90, 90);
+		view.getEpisodesTable().setPlaceholder(new StackPane(seriesProgress));
+		view.getMovieTable().setPlaceholder(new StackPane(moviesProgress));
 //		view.getEpisodesTable().getItems().clear();
 
 		thread = new Thread() {
@@ -118,8 +118,8 @@ public class MainWindowController {
 					e1.printStackTrace();
 				} finally {
 					if(getWaitThread() == null) {
-						view.getEpisodesTable().setPlaceholder(oldPlaceHolder);
-						view.getMovieTable().setPlaceholder(oldPlaceHolder2);
+						view.getEpisodesTable().setPlaceholder(oldSeriesPlaceHolder);
+						view.getMovieTable().setPlaceholder(oldMoviesPlaceHolder);
 					}
 					thread = null;
 				}
