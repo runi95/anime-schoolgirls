@@ -33,6 +33,6 @@
 .text-area .content {
     -fx-padding: 10px;
     -fx-text-fill: gray;
-    -fx-highlight-fill: #7ecfff;
-    -fx-background-color: #f0f0ff;
+    -fx-highlight-fill: transparent;
+    -fx-background-color: transparent;
 }
