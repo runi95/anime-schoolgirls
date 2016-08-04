@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.model.DescriptionTextArea;
 import javafx.model.Episodes;
 import javafx.model.Series;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
@@ -42,6 +43,7 @@ public class MainWindowView extends SplitPane implements Initializable {
 	@FXML TableView movieTable;
 	@FXML ScrollPane scrollPane;
 	@FXML ImageView seriesImage;
+	@FXML Label seriesTitle;
 	@FXML DescriptionTextArea seriesDescription;
 
 	public MainWindowView(ObservableList<Series> topseriesList, ObservableList<Series> seriesList, ObservableList<Episodes> episodesList, ObservableList<Episodes> movieList) {
@@ -50,6 +52,10 @@ public class MainWindowView extends SplitPane implements Initializable {
 		this.episodeList = episodesList;
 		this.movieList = movieList;
 		Resources.loadFXML(this);
+	}
+	
+	public void setSeriesTitle(String title) {
+		seriesTitle.setText(title);
 	}
 	
 	public void setController(MainWindowController controller) {

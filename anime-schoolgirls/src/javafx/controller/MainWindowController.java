@@ -16,6 +16,7 @@ import javafx.model.MainWindowModel;
 import javafx.model.Series;
 import javafx.model.Video;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -46,6 +47,7 @@ public class MainWindowController {
 			if (newSelection != null) {
 				Series series = (Series) seriesTable.getSelectionModel().getSelectedItem();
 				if (series != null) {
+					view.setSeriesTitle(series.getName());
 					view.setSeriesDescription(series.getDescription());
 					view.setSeriesImage(series.getImage());
 					addEpisodesFromFTW(series.getId());
@@ -94,8 +96,8 @@ public class MainWindowController {
 		removeAllMovies();
 		grabFTW ftwdaemon = new grabFTW();
 		
-		Node oldSeriesPlaceHolder = view.getEpisodesTable().getPlaceholder();
-		Node oldMoviesPlaceHolder = view.getMovieTable().getPlaceholder();
+		Node oldSeriesPlaceHolder = new Label("No content in table");
+		Node oldMoviesPlaceHolder = new Label("No content in table");
 		
 		ProgressIndicator seriesProgress = new ProgressIndicator();
 		ProgressIndicator moviesProgress = new ProgressIndicator();
@@ -256,7 +258,7 @@ public class MainWindowController {
 	private void addTopSeriesFromAnimeFTW() {
 		grabFTW ftwdaemon = new grabFTW();
 		
-		Node oldPlaceHolder = view.getTopSeriesTable().getPlaceholder();
+		Node oldPlaceHolder = new Label("No content in table");
 		
 		ProgressIndicator progress = new ProgressIndicator();
 		progress.setMaxSize(90, 90);
