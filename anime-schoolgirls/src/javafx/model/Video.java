@@ -3,6 +3,7 @@ package javafx.model;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 
+@Deprecated
 public class Video {
 	
 	     private ImageView icon;
