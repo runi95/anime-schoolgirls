@@ -49,7 +49,7 @@ public class MyApplication extends Application {
 			root.getChildren().add(view);
 			
 			scene = new Scene(root, width, height);
-			scene.getStylesheets().add("javafx/view/fxml/css/style.css");
+//			scene.getStylesheets().add("javafx/view/fxml/css/style.css");
 			stage.setScene(scene);
 			stage.show();
 		}
