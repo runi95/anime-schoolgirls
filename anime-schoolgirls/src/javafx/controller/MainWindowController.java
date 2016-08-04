@@ -10,6 +10,7 @@ import api.JsonDecoder.extractSeries;
 import api.grabFTW;
 import backend.IntegerParser;
 import backend.WaitingThread;
+import javafx.application.Platform;
 import javafx.model.Episodes;
 import javafx.model.MainWindowModel;
 import javafx.model.Series;
@@ -120,8 +121,7 @@ public class MainWindowController {
 					e1.printStackTrace();
 				} finally {
 					if(getWaitThread() == null) {
-						view.getEpisodesTable().setPlaceholder(oldSeriesPlaceHolder);
-						view.getMovieTable().setPlaceholder(oldMoviesPlaceHolder);
+						setPlaceHolders(oldSeriesPlaceHolder, oldMoviesPlaceHolder);
 					}
 					thread = null;
 				}
@@ -129,6 +129,16 @@ public class MainWindowController {
 		};
 
 		thread.start();
+	}
+	
+	private void setPlaceHolders(Node oldSeriesPlaceHolder, Node oldMoviesPlaceHolder) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				view.getEpisodesTable().setPlaceholder(oldSeriesPlaceHolder);
+				view.getMovieTable().setPlaceholder(oldMoviesPlaceHolder);
+			}
+		});
 	}
 
 	public void playEpisode() {

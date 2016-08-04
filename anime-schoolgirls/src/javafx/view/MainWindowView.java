@@ -108,10 +108,10 @@ public class MainWindowView extends SplitPane implements Initializable {
 		thread.start();
 	}
 	
-	public TableView getTopSeriesTable() { return topseriesTable; }
-	public TableView getSeriesTable() { return seriesTable; }
-	public TableView getEpisodesTable() { return epTable; }
-	public TableView getMovieTable() { return movieTable; }
+	public synchronized TableView getTopSeriesTable() { return topseriesTable; }
+	public synchronized TableView getSeriesTable() { return seriesTable; }
+	public synchronized TableView getEpisodesTable() { return epTable; }
+	public synchronized TableView getMovieTable() { return movieTable; }
 	
 	public TabPane getEpisodeTabs() { return episodeTabs; }
 	
