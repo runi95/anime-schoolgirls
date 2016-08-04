@@ -1,6 +1,11 @@
 package api;
 import api.clientHttp;
+import api.chromeCastHandler;
 import api.grabFTW;
+import su.litvak.chromecast.api.v2.Application;
+import su.litvak.chromecast.api.v2.ChromeCast;
+import su.litvak.chromecast.api.v2.ChromeCasts;
+import su.litvak.chromecast.api.v2.Status;
 
 import java.util.List;
 
@@ -10,14 +15,32 @@ import api.JsonDecoder.extractSeries;
 public class testmain {
 
 	public static void main(String[] args) throws Exception {
-
-		if (clientHttp.Login("", "")){
-			System.out.println("Success");
-			
-			getSeries();
-		} else {
-			System.out.print("Something wong");
+		String APP_ID = "CC1AD845";
+		
+		chromeCastHandler.StartDiscovery();
+		ChromeCast chromecast = chromeCastHandler.ccConnect(0);
+		Status status = chromeCastHandler.getStatus(chromecast);
+		while(!chromeCastHandler.startApp(chromecast, status)){
+			Thread.sleep(10);
 		}
+		System.out.println("AppStarted");
+		
+		
+		// Get device status
+		
+		chromeCastHandler.playVideo("http://videos.animeftw.tv/fullmetalalchemist/fullmetalalchemist_1_ns.mp4", "Test", chromecast);
+		
+		//if (clientHttp.Login("", "")){
+		//	System.out.println("Success");
+			
+		//	getSeries();
+		//} else {
+		//	System.out.print("Something wong");
+		//}
+		Thread.sleep(8000);
+		chromecast.stopApp();
+		chromecast.disconnect();
+		ChromeCasts.stopDiscovery();
 		
 
 	}
