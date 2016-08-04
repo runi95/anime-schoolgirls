@@ -14,13 +14,11 @@ import javafx.application.Platform;
 import javafx.model.Episodes;
 import javafx.model.MainWindowModel;
 import javafx.model.Series;
-import javafx.model.Video;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.view.MainWindowView;
 
@@ -42,7 +40,7 @@ public class MainWindowController {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void setListeners(TableView seriesTable, TableView episodesTable) {
+	private void setListeners(@SuppressWarnings("rawtypes") TableView seriesTable, @SuppressWarnings("rawtypes") TableView episodesTable) {
 		seriesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection != null) {
 				Series series = (Series) seriesTable.getSelectionModel().getSelectedItem();
@@ -160,7 +158,7 @@ public class MainWindowController {
 	private void runEpisode(String link) {
 		String[] arguments = new String[] { "mpv", "--user-agent", "\"HenningCast/mpv\"", link };
 		try {
-			Process proc = new ProcessBuilder(arguments).start();
+			new ProcessBuilder(arguments).start();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

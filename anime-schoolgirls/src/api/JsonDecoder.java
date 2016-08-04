@@ -5,12 +5,9 @@
 
 package api;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import api.Config;
@@ -20,8 +17,6 @@ public class JsonDecoder {
 
 	//private static ArrayList<SeriesList> SeriesList;
 	public static <T> List<extractSeries> getSeries(String ftwJson){
-		Gson gson = new Gson();
-
 		SeriesList serieslist = new Gson().fromJson(ftwJson, SeriesList.class);
 		
 		return serieslist.getlist();
@@ -29,12 +24,9 @@ public class JsonDecoder {
 	}
 	
 	public static <T> List<extractEpisodes> getEpisodes(String ftwJson){
-		Gson gson = new Gson();
-
 		EpisodesList episodeslist = new Gson().fromJson(ftwJson, EpisodesList.class);
 		
 		return episodeslist.getlist();
-		
 	}
 	
 	public static boolean handleJson(String ftwJson, String Method) throws Exception{

@@ -18,7 +18,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,11 +34,14 @@ public class MainWindowView extends SplitPane implements Initializable {
 	private Thread thread = null;
 	private WaitingThread waitingThread = null;
 	
-	@SuppressWarnings("rawtypes")
 	@FXML TabPane episodeTabs;
+	@SuppressWarnings("rawtypes")
 	@FXML TableView topseriesTable;
+	@SuppressWarnings("rawtypes")
 	@FXML TableView seriesTable;
+	@SuppressWarnings("rawtypes")
 	@FXML TableView epTable;
+	@SuppressWarnings("rawtypes")
 	@FXML TableView movieTable;
 	@FXML ScrollPane scrollPane;
 	@FXML ImageView seriesImage;
@@ -114,9 +116,13 @@ public class MainWindowView extends SplitPane implements Initializable {
 		thread.start();
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public synchronized TableView getTopSeriesTable() { return topseriesTable; }
+	@SuppressWarnings("rawtypes")
 	public synchronized TableView getSeriesTable() { return seriesTable; }
+	@SuppressWarnings("rawtypes")
 	public synchronized TableView getEpisodesTable() { return epTable; }
+	@SuppressWarnings("rawtypes")
 	public synchronized TableView getMovieTable() { return movieTable; }
 	
 	public TabPane getEpisodeTabs() { return episodeTabs; }
@@ -144,7 +150,7 @@ public class MainWindowView extends SplitPane implements Initializable {
         movieTable.setItems(movieList);
 	}
 	
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private TableColumn createNewTableColumn(String columnName, String variableName, int minWidth, int prefWidth, int maxWidth) {
 		TableColumn column = new TableColumn<>(columnName);
 		column.setCellValueFactory(new PropertyValueFactory<>(variableName));

@@ -2,14 +2,11 @@ package javafx;
 
 import javafx.application.Application;
 import javafx.controller.LoginController;
-import javafx.controller.MainWindowController;
 import javafx.model.LoginModel;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.view.LoginView;
-import javafx.view.MainWindowView;
 
 public class MyApplication extends Application {
 
@@ -48,7 +45,7 @@ public class MyApplication extends Application {
 //			MainWindowController controller = new MainWindowController();
 //			root.getChildren().add(controller.getView());
 			LoginView view = new LoginView();
-			LoginController controller = new LoginController(new LoginModel(), view);
+			new LoginController(new LoginModel(), view);
 			root.getChildren().add(view);
 			
 			scene = new Scene(root, width, height);

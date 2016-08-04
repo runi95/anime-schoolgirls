@@ -1,7 +1,5 @@
 package javafx.model;
 
-import api.Config;
-
 public class UserInfo {
 
 	private String username, password, token, tokenDate;

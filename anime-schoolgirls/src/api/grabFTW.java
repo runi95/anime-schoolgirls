@@ -18,6 +18,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import api.Config;
 
+@SuppressWarnings("deprecation")
 public class grabFTW {
 
 	// HTTP POST request

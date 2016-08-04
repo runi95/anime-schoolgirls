@@ -5,6 +5,7 @@ import api.grabFTW;
 import java.util.List;
 
 import api.JsonDecoder;
+import api.JsonDecoder.extractSeries;
 
 public class testmain {
 
@@ -23,7 +24,7 @@ public class testmain {
 	
 	public static void getSeries(){
 		System.out.println("\nTesting 2 - Send Http POST request");
-		List extractSeries;
+		List<extractSeries> extractSeries;
 		grabFTW ftwdaemon = new grabFTW();
 		try {
 			extractSeries = JsonDecoder.getSeries(ftwdaemon.getListing("display-series", 3));

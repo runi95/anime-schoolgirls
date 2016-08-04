@@ -1,8 +1,5 @@
 package javafx.model;
 
-import java.util.List;
-
-import api.JsonDecoder.extractEpisodes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
