@@ -3,10 +3,14 @@ package javafx.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import backend.SearchTree;
 import backend.WaitingThread;
 import javafx.Resources;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.controller.MainWindowController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.model.DescriptionTextArea;
@@ -21,8 +25,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
 
 public class MainWindowView extends SplitPane implements Initializable {
+	
+	private SearchTree<Integer> searchTree = new SearchTree<>();
+	private Timeline timeline = new Timeline(new KeyFrame(Duration.millis(3000), ae -> resetSearchString()));
+	
+	private String searchString = "";
 	
 	private ObservableList<Series> topseriesList;
 	private ObservableList<Series> seriesList;
@@ -47,13 +58,29 @@ public class MainWindowView extends SplitPane implements Initializable {
 	@FXML ImageView seriesImage;
 	@FXML Label seriesTitle;
 	@FXML DescriptionTextArea seriesDescription;
-
+	
 	public MainWindowView(ObservableList<Series> topseriesList, ObservableList<Series> seriesList, ObservableList<Episodes> episodesList, ObservableList<Episodes> movieList) {
 		this.topseriesList = topseriesList;
 		this.seriesList = seriesList;
 		this.episodeList = episodesList;
 		this.movieList = movieList;
 		Resources.loadFXML(this);
+	}
+	
+	private synchronized void resetSearchString() {
+		searchString = "";
+	}
+	
+	private synchronized void setSearchString(String s) {
+		searchString = s;
+	}
+	
+	private synchronized String getSearchString() {
+		return searchString;
+	}
+	
+	public SearchTree<Integer> getSearchTree() {
+		return searchTree;
 	}
 	
 	public void setSeriesTitle(String title) {
@@ -130,7 +157,6 @@ public class MainWindowView extends SplitPane implements Initializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
         /* add column to the tableview and set its items */
         topseriesTable.getColumns().add(createNewTableColumn("Name", "name", -1, 400, -1));
         topseriesTable.getColumns().add(createNewTableColumn("Rating", "rating", 75, 75, 75));
@@ -141,6 +167,22 @@ public class MainWindowView extends SplitPane implements Initializable {
         seriesTable.getColumns().add(createNewTableColumn("Rating", "rating", 75, 75, 75));
         seriesTable.setItems(seriesList);
         
+        seriesTable.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        	@Override
+        	public void handle(KeyEvent t) {
+        		if(t.getCode().isLetterKey()) {
+        			timeline.stop();
+        			String s = getSearchString() + t.getCode().getName().toUpperCase();
+    				setSearchString(s);
+        			Integer i = searchTree.search(s);
+        			timeline.playFromStart();
+        			if(i != null) {
+        				seriesTable.getSelectionModel().select((int) i);
+        			}
+        		}
+        	}
+        });
+        
         epTable.getColumns().add(createNewTableColumn("Episode", "epnumber", 75, 75, 75));
         epTable.getColumns().add(createNewTableColumn("Name", "name", -1, -1, -1));
         epTable.setItems(episodeList);
@@ -148,6 +190,19 @@ public class MainWindowView extends SplitPane implements Initializable {
         movieTable.getColumns().add(createNewTableColumn("Movie", "epnumber", -1, 10, -1));
         movieTable.getColumns().add(createNewTableColumn("Name", "name", -1, -1, -1));
         movieTable.setItems(movieList);
+        
+        /*
+        seriesList.addListener(new ListChangeListener<Series>() {
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Series> c) {
+				while(c.next()) {
+					if(!c.wasPermutated() && !c.wasUpdated())
+						for(int i = 0; i < c.getAddedSize(); i++)
+							searchTree.put(c.getAddedSubList().get(i).getName(), i);
+				}
+			}
+        });
+        */
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

@@ -4,7 +4,7 @@ import backend.IntegerParser;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Series {
+public class Series implements Comparable<Series> {
 
 	private ImageView watchlistIcon = new ImageView();
 	private int watchlistState = 0;
@@ -64,6 +64,11 @@ public class Series {
 	public String getWatchlist() {
 		return watchlist;
 	}
-	 public ImageView getWatchlistIcon() { return watchlistIcon; }
+	public ImageView getWatchlistIcon() { return watchlistIcon; }
+
+	@Override
+	public int compareTo(Series s) {
+		return this.getName().compareTo(s.getName());
+	}
 
 }

@@ -215,6 +215,9 @@ public class MainWindowController {
 	
 	public void addAllSeries(List<Series> seriesList) {
 		model.getSeriesList().addAll(seriesList);
+		for(int i = 0; i < seriesList.size(); i++) {
+			view.getSearchTree().put(seriesList.get(i).getName().toUpperCase(), i);
+		}
 	}
 
 	public void addSeries(String name, String description, String rating, String image, String id, String watchlist) {
@@ -341,7 +344,6 @@ public class MainWindowController {
 					rating = series.getratingString(), id = series.getid(), watchlist = series.getwatchlist();
 			retList.add(new Series(name, description, rating, image, id, watchlist));
 		}
-		System.out.println(retList.size());
 		
 		return retList;
 	}
