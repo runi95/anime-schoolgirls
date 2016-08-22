@@ -26,9 +26,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-public class MainWindowView extends SplitPane implements Initializable {
+public class MainWindowView extends BorderPane implements Initializable {
 	
 	private SearchTree<Integer> searchTree = new SearchTree<>();
 	private Timeline timeline = new Timeline(new KeyFrame(Duration.millis(3000), ae -> resetSearchString()));
@@ -44,6 +46,10 @@ public class MainWindowView extends SplitPane implements Initializable {
 	
 	private Thread thread = null;
 	private WaitingThread waitingThread = null;
+	
+	@FXML ImageView pullMenuButton;
+	@FXML PullMenu pullMenu;
+	@FXML PlayerMenu playerMenu;
 	
 	@FXML TabPane episodeTabs;
 	@SuppressWarnings("rawtypes")
@@ -65,6 +71,10 @@ public class MainWindowView extends SplitPane implements Initializable {
 		this.episodeList = episodesList;
 		this.movieList = movieList;
 		Resources.loadFXML(this);
+	}
+	
+	public void buttonPullMenu() {
+		pullMenu.buttonPullMenu(pullMenuButton);
 	}
 	
 	private synchronized void resetSearchString() {

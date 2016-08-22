@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.view.PlayerMenu?>
+
+<PlayerMenu fx:controller="javafx.view.PlayerMenu" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Slider prefWidth="200.0"/>
+      <ImageView fx:id="playButton" fitHeight="32.0"
+					fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
+					onMouseClicked="#buttonPlay">
+					<Image url="@../image/PlayButton.png" />
+					<cursor>
+						<Cursor fx:constant="HAND" />
+					</cursor>
+				</ImageView>
+   </children>
+</PlayerMenu>
